@@ -27,6 +27,7 @@
 		5EC18EBC297D3E8100F5F622 /* HelveticaNeue-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5EC18EB1297D3E8100F5F622 /* HelveticaNeue-Medium.otf */; };
 		5EC18EBD297D3E8100F5F622 /* HelveticaNeue-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5EC18EB2297D3E8100F5F622 /* HelveticaNeue-Bold.otf */; };
 		5EC18EC0297D43DE00F5F622 /* CustomStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC18EBF297D43DE00F5F622 /* CustomStackView.swift */; };
+		5EC18EC2297D82E000F5F622 /* CustomCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC18EC1297D82E000F5F622 /* CustomCorner.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		5EC18EB2297D3E8100F5F622 /* HelveticaNeue-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeue-Bold.otf"; sourceTree = "<group>"; };
 		5EC18EBE297D3F2000F5F622 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5EC18EBF297D43DE00F5F622 /* CustomStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStackView.swift; sourceTree = "<group>"; };
+		5EC18EC1297D82E000F5F622 /* CustomCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCorner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 			children = (
 				5E2BE52C297AB908001A5836 /* ContentView.swift */,
 				5EC18EBF297D43DE00F5F622 /* CustomStackView.swift */,
+				5EC18EC1297D82E000F5F622 /* CustomCorner.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5EC18EC0297D43DE00F5F622 /* CustomStackView.swift in Sources */,
+				5EC18EC2297D82E000F5F622 /* CustomCorner.swift in Sources */,
 				5EC18EA5297D3D0800F5F622 /* Blur.swift in Sources */,
 				5E2BE52D297AB908001A5836 /* ContentView.swift in Sources */,
 				5E2BE52B297AB908001A5836 /* WeatherApp.swift in Sources */,

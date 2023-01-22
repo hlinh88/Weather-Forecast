@@ -19,8 +19,25 @@ struct CustomStackView<Title: View, Content: View>: View {
     var body: some View{
         VStack(spacing: 0){
             titleView
+                .font(.callout)
+                .lineLimit(1)
+                .frame(height: 38)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(.ultraThinMaterial, in:
+                                CustomCorner(corners: [.topLeft, .topRight],
+                                             radius: 15))
             
+            VStack{
+                contentView
+                    .padding(.horizontal, 15)
+                    .padding(.vertical, 15)
+                    
+            }
+            .background(.ultraThinMaterial, in:
+                CustomCorner(corners: [.bottomLeft, .bottomRight],
+                             radius: 15))
         }
+        .preferredColorScheme(.dark)
     }
     
 }

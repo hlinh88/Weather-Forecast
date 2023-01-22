@@ -55,7 +55,29 @@ struct MainView : View {
                 }
                 
                 VStack(spacing: 8){
-                    
+                    CustomStackView{
+                        Label{
+                            Text("Hourly Forecast")
+                                .font(.custom("HelveticaNeue-Medium", size: 15))
+                                .foregroundColor(.white)
+                                .opacity(0.7)
+                             
+                        }
+                        icon:{
+                            Image(systemName: "clock")
+                                .foregroundColor(.white)
+                                .opacity(0.7)
+                        }
+                        .padding(.horizontal, 15)
+                    } contentView: {
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack(spacing: 15){
+                                ForEach(1...10, id: \.self) { i in
+                                    ForecastView(time: "12PM", celcius: 18, image: "cloud.moon.fill")
+                                   }
+                            }
+                        }
+                    }
                 }
                 
             }
@@ -68,5 +90,25 @@ struct MainView : View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+struct ForecastView: View {
+    var time : String
+    var celcius : CGFloat
+    var image : String
+    
+    var body: some View {
+        VStack(){
+            Text(time)
+                .font(.custom("HelveticaNeue-Bold", size: 15))
+            Image(systemName: image)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 35, height: 35)
+            Text("\(Int(celcius))°")
+                .font(.custom("HelveticaNeue-Bold", size: 20))
+        }
+        .padding(.horizontal, 5)
     }
 }
