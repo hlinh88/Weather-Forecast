@@ -77,7 +77,7 @@ struct WeatherDataView: View {
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 }
-                .frame(height: .infinity)
+                .frame(maxHeight: .infinity)
                 
                 CustomStackView {
                     Label{
@@ -102,7 +102,7 @@ struct WeatherDataView: View {
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 }
-                .frame(height: .infinity)
+                .frame(maxHeight: .infinity)
 
             }
 
