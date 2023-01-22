@@ -14,6 +14,19 @@
 		5E2BE53C297AB909001A5836 /* WeatherAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2BE53B297AB909001A5836 /* WeatherAppTests.swift */; };
 		5E2BE546297AB909001A5836 /* WeatherAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2BE545297AB909001A5836 /* WeatherAppUITests.swift */; };
 		5E2BE548297AB909001A5836 /* WeatherAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2BE547297AB909001A5836 /* WeatherAppUITestsLaunchTests.swift */; };
+		5EC18EA5297D3D0800F5F622 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC18EA4297D3D0800F5F622 /* Blur.swift */; };
+		5EC18EB3297D3E8100F5F622 /* HelveticaNeue-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5EC18EA8297D3E8000F5F622 /* HelveticaNeue-Light.otf */; };
+		5EC18EB4297D3E8100F5F622 /* HelveticaNeue-CondensedBlack.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5EC18EA9297D3E8000F5F622 /* HelveticaNeue-CondensedBlack.otf */; };
+		5EC18EB5297D3E8100F5F622 /* HelveticaNeue-CondensedBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5EC18EAA297D3E8000F5F622 /* HelveticaNeue-CondensedBold.otf */; };
+		5EC18EB6297D3E8100F5F622 /* HelveticaNeue-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5EC18EAB297D3E8000F5F622 /* HelveticaNeue-LightItalic.otf */; };
+		5EC18EB7297D3E8100F5F622 /* HelveticaNeue-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5EC18EAC297D3E8000F5F622 /* HelveticaNeue-Italic.otf */; };
+		5EC18EB8297D3E8100F5F622 /* HelveticaNeue-UltraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5EC18EAD297D3E8000F5F622 /* HelveticaNeue-UltraLight.otf */; };
+		5EC18EB9297D3E8100F5F622 /* HelveticaNeue-UltraLightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5EC18EAE297D3E8000F5F622 /* HelveticaNeue-UltraLightItalic.otf */; };
+		5EC18EBA297D3E8100F5F622 /* HelveticaNeue-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5EC18EAF297D3E8000F5F622 /* HelveticaNeue-BoldItalic.otf */; };
+		5EC18EBB297D3E8100F5F622 /* HelveticaNeue.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5EC18EB0297D3E8000F5F622 /* HelveticaNeue.otf */; };
+		5EC18EBC297D3E8100F5F622 /* HelveticaNeue-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5EC18EB1297D3E8100F5F622 /* HelveticaNeue-Medium.otf */; };
+		5EC18EBD297D3E8100F5F622 /* HelveticaNeue-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5EC18EB2297D3E8100F5F622 /* HelveticaNeue-Bold.otf */; };
+		5EC18EC0297D43DE00F5F622 /* CustomStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC18EBF297D43DE00F5F622 /* CustomStackView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +57,20 @@
 		5E2BE541297AB909001A5836 /* WeatherAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E2BE545297AB909001A5836 /* WeatherAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppUITests.swift; sourceTree = "<group>"; };
 		5E2BE547297AB909001A5836 /* WeatherAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		5EC18EA4297D3D0800F5F622 /* Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
+		5EC18EA8297D3E8000F5F622 /* HelveticaNeue-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeue-Light.otf"; sourceTree = "<group>"; };
+		5EC18EA9297D3E8000F5F622 /* HelveticaNeue-CondensedBlack.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeue-CondensedBlack.otf"; sourceTree = "<group>"; };
+		5EC18EAA297D3E8000F5F622 /* HelveticaNeue-CondensedBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeue-CondensedBold.otf"; sourceTree = "<group>"; };
+		5EC18EAB297D3E8000F5F622 /* HelveticaNeue-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeue-LightItalic.otf"; sourceTree = "<group>"; };
+		5EC18EAC297D3E8000F5F622 /* HelveticaNeue-Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeue-Italic.otf"; sourceTree = "<group>"; };
+		5EC18EAD297D3E8000F5F622 /* HelveticaNeue-UltraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeue-UltraLight.otf"; sourceTree = "<group>"; };
+		5EC18EAE297D3E8000F5F622 /* HelveticaNeue-UltraLightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeue-UltraLightItalic.otf"; sourceTree = "<group>"; };
+		5EC18EAF297D3E8000F5F622 /* HelveticaNeue-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeue-BoldItalic.otf"; sourceTree = "<group>"; };
+		5EC18EB0297D3E8000F5F622 /* HelveticaNeue.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeue.otf; sourceTree = "<group>"; };
+		5EC18EB1297D3E8100F5F622 /* HelveticaNeue-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeue-Medium.otf"; sourceTree = "<group>"; };
+		5EC18EB2297D3E8100F5F622 /* HelveticaNeue-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeue-Bold.otf"; sourceTree = "<group>"; };
+		5EC18EBE297D3F2000F5F622 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5EC18EBF297D43DE00F5F622 /* CustomStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStackView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +101,7 @@
 		5E2BE51E297AB908001A5836 = {
 			isa = PBXGroup;
 			children = (
+				5EC18EA6297D3E2B00F5F622 /* Fonts */,
 				5E2BE529297AB908001A5836 /* WeatherApp */,
 				5E2BE53A297AB909001A5836 /* WeatherAppTests */,
 				5E2BE544297AB909001A5836 /* WeatherAppUITests */,
@@ -94,6 +122,7 @@
 		5E2BE529297AB908001A5836 /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				5EC18EBE297D3F2000F5F622 /* Info.plist */,
 				5E66CFC6297ABA2F002AAD05 /* Components */,
 				5E66CFC3297ABA0C002AAD05 /* Views */,
 				5E2BE52A297AB908001A5836 /* WeatherApp.swift */,
@@ -132,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				5E2BE52C297AB908001A5836 /* ContentView.swift */,
+				5EC18EBF297D43DE00F5F622 /* CustomStackView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -139,8 +169,27 @@
 		5E66CFC6297ABA2F002AAD05 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				5EC18EA4297D3D0800F5F622 /* Blur.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		5EC18EA6297D3E2B00F5F622 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				5EC18EB2297D3E8100F5F622 /* HelveticaNeue-Bold.otf */,
+				5EC18EAF297D3E8000F5F622 /* HelveticaNeue-BoldItalic.otf */,
+				5EC18EA9297D3E8000F5F622 /* HelveticaNeue-CondensedBlack.otf */,
+				5EC18EAA297D3E8000F5F622 /* HelveticaNeue-CondensedBold.otf */,
+				5EC18EAC297D3E8000F5F622 /* HelveticaNeue-Italic.otf */,
+				5EC18EA8297D3E8000F5F622 /* HelveticaNeue-Light.otf */,
+				5EC18EAB297D3E8000F5F622 /* HelveticaNeue-LightItalic.otf */,
+				5EC18EB1297D3E8100F5F622 /* HelveticaNeue-Medium.otf */,
+				5EC18EAD297D3E8000F5F622 /* HelveticaNeue-UltraLight.otf */,
+				5EC18EAE297D3E8000F5F622 /* HelveticaNeue-UltraLightItalic.otf */,
+				5EC18EB0297D3E8000F5F622 /* HelveticaNeue.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -247,8 +296,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EC18EB4297D3E8100F5F622 /* HelveticaNeue-CondensedBlack.otf in Resources */,
+				5EC18EB7297D3E8100F5F622 /* HelveticaNeue-Italic.otf in Resources */,
+				5EC18EB8297D3E8100F5F622 /* HelveticaNeue-UltraLight.otf in Resources */,
+				5EC18EBD297D3E8100F5F622 /* HelveticaNeue-Bold.otf in Resources */,
+				5EC18EBC297D3E8100F5F622 /* HelveticaNeue-Medium.otf in Resources */,
+				5EC18EB6297D3E8100F5F622 /* HelveticaNeue-LightItalic.otf in Resources */,
 				5E2BE532297AB909001A5836 /* Preview Assets.xcassets in Resources */,
+				5EC18EBA297D3E8100F5F622 /* HelveticaNeue-BoldItalic.otf in Resources */,
+				5EC18EB9297D3E8100F5F622 /* HelveticaNeue-UltraLightItalic.otf in Resources */,
+				5EC18EBB297D3E8100F5F622 /* HelveticaNeue.otf in Resources */,
 				5E2BE52F297AB909001A5836 /* Assets.xcassets in Resources */,
+				5EC18EB3297D3E8100F5F622 /* HelveticaNeue-Light.otf in Resources */,
+				5EC18EB5297D3E8100F5F622 /* HelveticaNeue-CondensedBold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +333,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EC18EC0297D43DE00F5F622 /* CustomStackView.swift in Sources */,
+				5EC18EA5297D3D0800F5F622 /* Blur.swift in Sources */,
 				5E2BE52D297AB908001A5836 /* ContentView.swift in Sources */,
 				5E2BE52B297AB908001A5836 /* WeatherApp.swift in Sources */,
 			);
@@ -436,6 +498,7 @@
 				DEVELOPMENT_TEAM = 267YL39X87;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeatherApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -465,6 +528,7 @@
 				DEVELOPMENT_TEAM = 267YL39X87;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeatherApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
