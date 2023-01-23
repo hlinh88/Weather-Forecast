@@ -105,6 +105,58 @@ struct WeatherDataView: View {
                 .frame(maxHeight: .infinity)
 
             }
+            
+            CustomStackView {
+                Label{
+                    Text("10-DAY FORECAST")
+                        .font(.custom("HelveticaNeue-Bold", size: 15))
+                        .foregroundColor(.white)
+                        .opacity(0.7)
+                     
+                }
+                icon:{
+                    Image(systemName: "calendar")
+                        .foregroundColor(.white)
+                        .opacity(0.7)
+                }
+                .padding(.horizontal, 15)
+            } contentView: {
+                VStack(alignment: .leading, spacing: 10){
+                    ForEach(forecast){
+                        cast in
+                        HStack(spacing: 10){
+                            Text(cast.day)
+                                .font(.custom("HelveticaNeue-Medium", size: 18))
+                                .frame(width: 60, alignment: .leading)
+                            Image(systemName: cast.image)
+                                .symbolVariant(.fill)
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.yellow, .white)
+                                .frame(width: 30)
+                            Text("\(Int(cast.celcius))")
+                                .font(.custom("HelveticaNeue-Medium", size: 18))
+                            
+                            ZStack(alignment: .leading){
+                                Capsule()
+                                    .fill(.tertiary)
+                                    .foregroundColor(.white)
+                                
+                                GeometryReader{proxy in
+                                    Capsule()
+                                        .fill(.linearGradient(.init(colors: [.cyan, .mint]), startPoint: .leading, endPoint: .trailing))
+                                        .frame(width: (cast.celcius / 32) * proxy.size.width)
+                                }
+                            }
+                            .frame(height: 6)
+                            
+                            Text("\(Int(cast.celcius) + 10)")
+                                .font(.custom("HelveticaNeue-Medium", size: 18))
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                
+            }
 
         }
     }
@@ -113,5 +165,26 @@ struct WeatherDataView: View {
 struct WeatherDataView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+
+extension UIColor {
+    convenience init(hexString: String) {
+        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int = UInt64()
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
     }
 }
