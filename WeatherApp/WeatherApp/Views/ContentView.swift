@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var data : OurData
     var body: some View {
         GeometryReader{proxy in
             let topEdge = proxy.safeAreaInsets.top
-            Home(topEdge: topEdge)
+            Home(data: data, topEdge: topEdge)
                 .ignoresSafeArea(.all, edges: .top)
         }
        
@@ -22,7 +23,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(data: OurData())
     }
 }
 

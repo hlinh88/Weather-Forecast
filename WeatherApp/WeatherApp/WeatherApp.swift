@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct WeatherApp: App {
+    let data = OurData()
+    
+    init(){
+        data.fetchWeather()
+    }
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(data: data)
         }
     }
 }

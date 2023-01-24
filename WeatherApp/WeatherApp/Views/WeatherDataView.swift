@@ -164,7 +164,7 @@ struct WeatherDataView: View {
 
 struct WeatherDataView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(data: OurData())
     }
 }
 

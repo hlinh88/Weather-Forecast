@@ -7,8 +7,19 @@
 
 import SwiftUI
 
+struct WeatherModel {
+    var cityName : String
+    var temp : Int
+    var icon: String
+    var weatherCondition: String
+    var temp_min: Int
+    var temp_max: Int
+}
+
 struct Home: View {
     @State var offset : CGFloat = 0
+    
+    @ObservedObject var data : OurData
     
     var topEdge : CGFloat
     
@@ -25,24 +36,24 @@ struct Home: View {
             ScrollView(.vertical, showsIndicators: false){
                 VStack{
                     VStack(alignment: .center, spacing: 5){
-                        Text("Hanoi")
+                        Text(data.weatherModel.cityName)
                             .font(.custom("HelveticaNeue-Medium", size: 35))
                             .foregroundStyle(.white)
                             .shadow(radius: 5)
                         
-                        Text("18°")
+                        Text("\(data.weatherModel.temp)°")
                             .font(.custom("HelveticaNeue-Medium", size: 70))
                             .foregroundColor(.white)
                             .shadow(radius: 5)
                         
-                        Text("Mostly Sunny")
+                        Text(data.weatherModel.weatherCondition)
                             .font(.custom("HelveticaNeue-Medium", size: 20))
                             .foregroundStyle(.white)
                             .foregroundStyle(.secondary)
                             .shadow(radius: 5)
                             .opacity(getTitleOpacity())
                         
-                        Text("H:25° L:13°")
+                        Text("H:\(data.weatherModel.temp_max)° L:\(data.weatherModel.temp_min)°")
                             .font(.custom("HelveticaNeue-Medium", size: 20))
                             .foregroundStyle(.white)
                             .shadow(radius: 5)
@@ -75,6 +86,8 @@ struct Home: View {
                 )
             }
         }
+
+       
     }
     
     func getTitleOpacity()->CGFloat{
@@ -122,6 +135,6 @@ struct ForecastView: View {
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(data: OurData())
     }
 }
