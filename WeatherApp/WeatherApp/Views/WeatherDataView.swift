@@ -13,7 +13,7 @@ struct WeatherDataView: View {
             CustomStackView{
                 Label{
                     Text("HOURLY FORECAST")
-                        .font(.custom("HelveticaNeue-Bold", size: 15))
+                        .font(.custom("HelveticaNeue-Medium", size: 13))
                         .foregroundColor(.white)
                         .opacity(0.7)
                      
@@ -36,7 +36,7 @@ struct WeatherDataView: View {
             CustomStackView {
                 Label{
                     Text("PRECITIPATION")
-                        .font(.custom("HelveticaNeue-Bold", size: 15))
+                        .font(.custom("HelveticaNeue-Medium", size: 13))
                         .foregroundColor(.white)
                         .opacity(0.7)
                      
@@ -57,7 +57,7 @@ struct WeatherDataView: View {
                 CustomStackView {
                     Label{
                         Text("UV INDEX")
-                            .font(.custom("HelveticaNeue-Bold", size: 15))
+                            .font(.custom("HelveticaNeue-Medium", size: 13))
                             .foregroundColor(.white)
                             .opacity(0.7)
                          
@@ -82,7 +82,7 @@ struct WeatherDataView: View {
                 CustomStackView {
                     Label{
                         Text("SUNRISE")
-                            .font(.custom("HelveticaNeue-Bold", size: 15))
+                            .font(.custom("HelveticaNeue-Medium", size: 13))
                             .foregroundColor(.white)
                             .opacity(0.7)
                          
@@ -159,6 +159,26 @@ struct WeatherDataView: View {
             }
 
         }
+    }
+}
+
+struct ForecastView: View {
+    var time : String
+    var celcius : CGFloat
+    var image : String
+    
+    var body: some View {
+        VStack(){
+            Text(time)
+                .font(.custom("HelveticaNeue-Medium", size: 15))
+            Image(systemName: image)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 35, height: 35)
+            Text("\(Int(celcius))°")
+                .font(.custom("HelveticaNeue", size: 20))
+        }
+        .padding(.horizontal, 5)
     }
 }
 

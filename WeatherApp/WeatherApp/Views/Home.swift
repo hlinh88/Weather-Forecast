@@ -19,6 +19,8 @@ struct WeatherModel {
 struct Home: View {
     @State var offset : CGFloat = 0
     
+    @State var currentBackground = "bg_default"
+    
     @ObservedObject var data : OurData
     
     var topEdge : CGFloat
@@ -26,7 +28,7 @@ struct Home: View {
     var body: some View {
         ZStack{
             GeometryReader{proxy in
-                Image("bg_day")
+                Image(currentBackground)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: proxy.size.width,  height: proxy.size.height)
@@ -86,6 +88,10 @@ struct Home: View {
                 )
             }
         }
+        .onAppear{
+            let hour = Calendar.current.component(.hour, from: Date())
+            getBackground(hour: hour)
+        }
 
        
     }
@@ -110,25 +116,23 @@ struct Home: View {
         }
         return 0
     }
-}
-
-struct ForecastView: View {
-    var time : String
-    var celcius : CGFloat
-    var image : String
     
-    var body: some View {
-        VStack(){
-            Text(time)
-                .font(.custom("HelveticaNeue-Bold", size: 15))
-            Image(systemName: image)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 35, height: 35)
-            Text("\(Int(celcius))°")
-                .font(.custom("HelveticaNeue-Bold", size: 20))
+    func getBackground(hour: Int){
+        switch hour{
+        case 0...6:
+            currentBackground = "bg_latenight"
+        case 6...12:
+            currentBackground = "bg_day"
+        case 12...17:
+            currentBackground = "bg_afternoon"
+        case 17...19:
+            currentBackground = "bg_lateafter"
+        case 19...24:
+            currentBackground = "bg_night"
+        default:
+            currentBackground = "bg_default"
         }
-        .padding(.horizontal, 5)
+        
     }
 }
 

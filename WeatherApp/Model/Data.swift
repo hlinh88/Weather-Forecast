@@ -10,7 +10,6 @@ import SwiftUI
 class OurData : ObservableObject {
     @Published public var weatherModel = WeatherModel(cityName: "", temp: 0, icon: "", weatherCondition: "", temp_min: 0, temp_max: 0)
 
-
     private var lat : Float = 21.027763
     private var lon : Float = 105.834160
     private var apiKey : String = "1602a19a43556d4a825f3b4fe5cdb3b5"
@@ -36,8 +35,10 @@ class OurData : ObservableObject {
                         let icon = self.getWeatherIcon(id: id)
                         let temp_min = Int(decodedData.main.temp_min.rounded())
                         let temp_max = Int(decodedData.main.temp_max.rounded())
-                        self.weatherModel = WeatherModel(cityName: cityName, temp: temp, icon: icon, weatherCondition: weatherCondition, temp_min: temp_min, temp_max: temp_max)
-                        print(self.weatherModel)
+                        DispatchQueue.main.async{
+                            self.weatherModel = WeatherModel(cityName: cityName, temp: temp, icon: icon, weatherCondition: weatherCondition, temp_min: temp_min, temp_max: temp_max)
+                        }
+                       
                     } catch{
                         print(error)
                     }
