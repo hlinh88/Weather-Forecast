@@ -130,6 +130,13 @@ struct WeatherDataView: View {
                             Text(cast.day)
                                 .font(.custom("HelveticaNeue-Medium", size: 18))
                                 .frame(width: 60, alignment: .leading)
+                            cast.image.contains(find: "cloud.sun") ?
+                            Image(systemName: cast.image)
+                                .symbolVariant(.fill)
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.white, .yellow)
+                                .frame(width: 30)
+                            :
                             Image(systemName: cast.image)
                                 .symbolVariant(.fill)
                                 .symbolRenderingMode(.palette)
@@ -172,11 +179,23 @@ struct ForecastView: View {
     var body: some View {
         VStack(){
             Text(time)
-                .font(.custom("HelveticaNeue-Medium", size: 15))
+                .font(.custom("HelveticaNeue-Medium", size: 13))
+            image.contains(find: "sun") ?
             Image(systemName: image)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 35, height: 35)
+                .symbolVariant(.fill)
+                .symbolRenderingMode(.palette)
+                .foregroundStyle(.yellow, .white)
+                .frame(width: 25, height: 25)
+            :
+            Image(systemName: image)
+                .resizable()
+                .scaledToFit()
+                .symbolVariant(.fill)
+                .symbolRenderingMode(.palette)
+                .foregroundStyle(.white)
+                .frame(width: 25, height: 25)
             Text("\(celcius)°")
                 .font(.custom("HelveticaNeue", size: 20))
         }

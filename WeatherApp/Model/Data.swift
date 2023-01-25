@@ -11,8 +11,8 @@ class OurData : ObservableObject {
     @Published public var weatherModel = WeatherModel(cityName: "", temp: 0, icon: "", weatherCondition: "", temp_min: 0, temp_max: 0)
     @Published public var forecastArray = [WeatherForecastNextHour]()
     
-    private var lat : Float = 21.027763
-    private var lon : Float = 105.834160
+    private var lat : Float = -37.813629
+    private var lon : Float = 144.963058
     private var apiKey : String = "1602a19a43556d4a825f3b4fe5cdb3b5"
     
     func fetchCurrentWeather(){
@@ -153,4 +153,8 @@ extension String {
         let endIndex = index(from: r.upperBound)
         return String(self[startIndex..<endIndex])
     }
+    
+    func contains(find: String) -> Bool{
+            return self.range(of: find) != nil
+        }
 }
