@@ -24,3 +24,15 @@ struct Weather : Decodable{
     let main : String
     let description : String 
 }
+
+struct List : Decodable{
+    let dt_txt : String
+    let main : Main
+    let weather : [Weather]
+}
+
+
+
+struct DataForecastNextHour : Decodable{
+    let list : [List]
+}

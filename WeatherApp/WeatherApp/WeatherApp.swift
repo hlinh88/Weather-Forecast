@@ -12,7 +12,8 @@ struct WeatherApp: App {
     let data = OurData()
     
     init(){
-        data.fetchWeather()
+        data.fetchCurrentWeather()
+        data.fetchNextHourWeather()
     }
     var body: some Scene {
         WindowGroup {

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct WeatherDataView: View {
+    @ObservedObject var data : OurData
+    
     var body: some View {
         VStack(spacing: 8){
             CustomStackView{
@@ -27,8 +29,8 @@ struct WeatherDataView: View {
             } contentView: {
                 ScrollView(.horizontal, showsIndicators: false){
                     HStack(spacing: 15){
-                        ForEach(1...10, id: \.self) { i in
-                            ForecastView(time: "12PM", celcius: 18, image: "cloud.moon.fill")
+                        ForEach(0..<data.forecastArray.count, id: \.self) { i in
+                            ForecastView(time: data.forecastArray[i].time, celcius: data.forecastArray[i].temp, image: data.forecastArray[i].icon)
                            }
                     }
                 }
@@ -164,7 +166,7 @@ struct WeatherDataView: View {
 
 struct ForecastView: View {
     var time : String
-    var celcius : CGFloat
+    var celcius : Int
     var image : String
     
     var body: some View {
@@ -175,7 +177,7 @@ struct ForecastView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 35, height: 35)
-            Text("\(Int(celcius))°")
+            Text("\(celcius)°")
                 .font(.custom("HelveticaNeue", size: 20))
         }
         .padding(.horizontal, 5)

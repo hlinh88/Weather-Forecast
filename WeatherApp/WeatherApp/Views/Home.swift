@@ -7,14 +7,6 @@
 
 import SwiftUI
 
-struct WeatherModel {
-    var cityName : String
-    var temp : Int
-    var icon: String
-    var weatherCondition: String
-    var temp_min: Int
-    var temp_max: Int
-}
 
 struct Home: View {
     @State var offset : CGFloat = 0
@@ -67,7 +59,7 @@ struct Home: View {
                     .offset(y: offset > 0 ? (offset / UIScreen.main.bounds.width) * 100 : 0)
                     .offset(y: getTitleOffset())
                     
-                    WeatherDataView()
+                    WeatherDataView(data: data)
                     
                     
                 }
