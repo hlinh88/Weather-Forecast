@@ -194,7 +194,7 @@ struct ForecastView: View {
                 .scaledToFit()
                 .symbolVariant(.fill)
                 .symbolRenderingMode(.palette)
-                .foregroundStyle(.white)
+                .foregroundStyle(.white, .white)
                 .frame(width: 25, height: 25)
             Text("\(celcius)°")
                 .font(.custom("HelveticaNeue", size: 20))
