@@ -7,17 +7,19 @@
 
 import SwiftUI
 
+
 @main
 struct WeatherApp: App {
     let data = OurData()
-    
+    let weatherViewModel = WeatherViewModel(weatherService: WeatherService())
+    let weatherForecastModel = WeatherForecastModel(weatherService: WeatherService())
+
     init(){
-        data.fetchCurrentWeather()
-        data.fetchNextHourWeather()
+        
     }
     var body: some Scene {
         WindowGroup {
-            ContentView(data: data)
+            ContentView(data: data, weatherViewModel: weatherViewModel, weatherForecastModel: weatherForecastModel)
         }
     }
 }

@@ -15,6 +15,10 @@ struct Home: View {
     
     @ObservedObject var data : OurData
     
+    @ObservedObject var weatherViewModel : WeatherViewModel
+    
+    @ObservedObject var weatherForecastModel : WeatherForecastModel
+    
     var topEdge : CGFloat
     
     var body: some View {
@@ -30,24 +34,24 @@ struct Home: View {
             ScrollView(.vertical, showsIndicators: false){
                 VStack{
                     VStack(alignment: .center, spacing: 5){
-                        Text(data.weatherModel.cityName)
+                        Text(weatherViewModel.cityName)
                             .font(.custom("HelveticaNeue-Medium", size: 35))
                             .foregroundStyle(.white)
                             .shadow(radius: 5)
                         
-                        Text("\(data.weatherModel.temp)°")
+                        Text("\(weatherViewModel.temp)°")
                             .font(.custom("HelveticaNeue-Medium", size: 70))
                             .foregroundColor(.white)
                             .shadow(radius: 5)
                         
-                        Text(data.weatherModel.weatherCondition)
+                        Text(weatherViewModel.weatherCondition)
                             .font(.custom("HelveticaNeue-Medium", size: 20))
                             .foregroundStyle(.white)
                             .foregroundStyle(.secondary)
                             .shadow(radius: 5)
                             .opacity(getTitleOpacity())
                         
-                        Text("H:\(data.weatherModel.temp_max)° L:\(data.weatherModel.temp_min)°")
+                        Text("H:\(weatherViewModel.temp_max)° L:\(weatherViewModel.temp_min)°")
                             .font(.custom("HelveticaNeue-Medium", size: 20))
                             .foregroundStyle(.white)
                             .shadow(radius: 5)
@@ -59,7 +63,7 @@ struct Home: View {
                     .offset(y: offset > 0 ? (offset / UIScreen.main.bounds.width) * 100 : 0)
                     .offset(y: getTitleOffset())
                     
-                    WeatherDataView(data: data)
+                    WeatherDataView(data: data, weatherForecastModel: weatherForecastModel)
                     
                     
                 }
@@ -81,6 +85,8 @@ struct Home: View {
             }
         }
         .onAppear{
+            weatherViewModel.fetchData()
+            weatherForecastModel.fetchData()
             let hour = Calendar.current.component(.hour, from: Date())
             getBackground(hour: hour)
         }
@@ -128,9 +134,3 @@ struct Home: View {
     }
 }
 
-
-struct Home_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(data: OurData())
-    }
-}

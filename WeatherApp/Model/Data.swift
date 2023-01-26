@@ -8,11 +8,11 @@
 import SwiftUI
 
 class OurData : ObservableObject {
-    @Published public var weatherModel = WeatherModel(cityName: "", temp: 0, icon: "", weatherCondition: "", temp_min: 0, temp_max: 0)
+    @Published public var weatherModel = WeatherModelData(cityName: "", temp: 0, icon: "", weatherCondition: "", temp_min: 0, temp_max: 0)
     @Published public var forecastArray = [WeatherForecastNextHour]()
     
-    private var lat : Float = -37.813629
-    private var lon : Float = 144.963058
+    private var lat : Float = 21.0278
+    private var lon : Float = 105.8342
     private var apiKey : String = "1602a19a43556d4a825f3b4fe5cdb3b5"
     
     func fetchCurrentWeather(){
@@ -28,7 +28,7 @@ class OurData : ObservableObject {
                 
                 if let safeData = data {
                     do{
-                        let decodedData = try JSONDecoder().decode(WeatherData.self, from: safeData)
+                        let decodedData = try JSONDecoder().decode(APICurrentWeather.self, from: safeData)
                         let id = decodedData.weather[0].id
                         let temp = Int(decodedData.main.temp.rounded())
                         let weatherCondition = decodedData.weather[0].description.capitalized
@@ -37,7 +37,7 @@ class OurData : ObservableObject {
                         let temp_min = Int(decodedData.main.temp_min.rounded())
                         let temp_max = Int(decodedData.main.temp_max.rounded())
                         DispatchQueue.main.async{
-                            self.weatherModel = WeatherModel(cityName: cityName, temp: temp, icon: icon, weatherCondition: weatherCondition, temp_min: temp_min, temp_max: temp_max)
+                            self.weatherModel = WeatherModelData(cityName: cityName, temp: temp, icon: icon, weatherCondition: weatherCondition, temp_min: temp_min, temp_max: temp_max)
                         }
                        
                     } catch{
@@ -51,7 +51,7 @@ class OurData : ObservableObject {
     
     func fetchNextHourWeather(){
         let currentTimezone = 7
-        let weatherURL = "https://api.openweathermap.org/data/2.5/forecast?lat=\(lat)&lon=\(lon)&cnt=8&appid=\(apiKey)&units=metric"
+        let weatherURL = "https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=\(lat)&lon=\(lon)&cnt=24&appid=\(apiKey)&units=metric"
         if let url = URL(string: weatherURL){
             let session = URLSession(configuration: .default)
             
@@ -63,7 +63,7 @@ class OurData : ObservableObject {
                 
                 if let safeData = data {
                     do{
-                        let decodedData = try JSONDecoder().decode(DataForecastNextHour.self, from: safeData)
+                        let decodedData = try JSONDecoder().decode(APIForecastWeather.self, from: safeData)
                         for index in 0..<decodedData.list.count{
                             var hour = ""
                             var time = Int(decodedData.list[index].dt_txt.substring(with: 11..<13))! + currentTimezone
@@ -117,7 +117,7 @@ class OurData : ObservableObject {
 }
 
 
-struct WeatherModel {
+struct WeatherModelData {
     var cityName : String
     var temp : Int
     var icon: String
@@ -126,11 +126,7 @@ struct WeatherModel {
     var temp_max: Int
 }
 
-struct WeatherForecastNextHour{
-    var time : String
-    var temp : Int
-    var icon : String
-}
+
 
 
 extension String {

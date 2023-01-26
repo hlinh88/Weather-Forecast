@@ -84,9 +84,3 @@ struct CornerModifier: ViewModifier{
         }
     }
 }
-
-struct CustomStackView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(data: OurData())
-    }
-}

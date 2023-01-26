@@ -10,6 +10,8 @@ import SwiftUI
 struct WeatherDataView: View {
     @ObservedObject var data : OurData
     
+    @ObservedObject var weatherForecastModel : WeatherForecastModel
+    
     var body: some View {
         VStack(spacing: 8){
             CustomStackView{
@@ -29,8 +31,8 @@ struct WeatherDataView: View {
             } contentView: {
                 ScrollView(.horizontal, showsIndicators: false){
                     HStack(spacing: 15){
-                        ForEach(0..<data.forecastArray.count, id: \.self) { i in
-                            ForecastView(time: data.forecastArray[i].time, celcius: data.forecastArray[i].temp, image: data.forecastArray[i].icon)
+                        ForEach(0..<weatherForecastModel.forecastList.count, id: \.self) { i in
+                            ForecastView(time: weatherForecastModel.forecastList[i].time, celcius: weatherForecastModel.forecastList[i].temp, image: weatherForecastModel.forecastList[i].icon)
                            }
                     }
                 }
@@ -203,11 +205,6 @@ struct ForecastView: View {
     }
 }
 
-struct WeatherDataView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(data: OurData())
-    }
-}
 
 
 extension UIColor {
