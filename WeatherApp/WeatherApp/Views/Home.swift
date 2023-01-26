@@ -17,7 +17,7 @@ struct Home: View {
     
     @ObservedObject var weatherViewModel : WeatherViewModel
     
-    @ObservedObject var weatherForecastModel : WeatherForecastModel
+    @ObservedObject var weatherForecastViewModel : WeatherForecastViewModel
     
     var topEdge : CGFloat
     
@@ -63,7 +63,7 @@ struct Home: View {
                     .offset(y: offset > 0 ? (offset / UIScreen.main.bounds.width) * 100 : 0)
                     .offset(y: getTitleOffset())
                     
-                    WeatherDataView(data: data, weatherForecastModel: weatherForecastModel)
+                    WeatherDataView(data: data, weatherForecastViewModel: weatherForecastViewModel)
                     
                     
                 }
@@ -86,7 +86,7 @@ struct Home: View {
         }
         .onAppear{
             weatherViewModel.fetchData()
-            weatherForecastModel.fetchData()
+            weatherForecastViewModel.fetchData()
             let hour = Calendar.current.component(.hour, from: Date())
             getBackground(hour: hour)
         }

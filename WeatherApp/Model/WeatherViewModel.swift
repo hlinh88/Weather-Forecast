@@ -8,10 +8,10 @@
 import SwiftUI
 
 public class WeatherViewModel: ObservableObject{
-    @Published var cityName : String = "City name"
+    @Published var cityName : String = ""
     @Published var temp : Int = 0
-    @Published var icon: String = "icon"
-    @Published var weatherCondition: String = "Weather condition"
+    @Published var icon: String = ""
+    @Published var weatherCondition: String = ""
     @Published var temp_min: Int = 0
     @Published var temp_max: Int = 0
     
@@ -36,7 +36,7 @@ public class WeatherViewModel: ObservableObject{
 }
 
 
-public class WeatherForecastModel : ObservableObject{
+public class WeatherForecastViewModel : ObservableObject{
     @Published var forecastList : [WeatherForecastNextHour] = []
     
     public let weatherService: WeatherService
@@ -47,12 +47,10 @@ public class WeatherForecastModel : ObservableObject{
     
     public func fetchData(){
         weatherService.loadForecastData { weatherForecastHourModel in
-            for index in 0..<weatherForecastHourModel.forecastList.count{
                 DispatchQueue.main.async {
-                    self.forecastList.append(WeatherForecastNextHour(time: weatherForecastHourModel.forecastList[index].time, temp: weatherForecastHourModel.forecastList[index].temp, icon: weatherForecastHourModel.forecastList[index].icon))
+                    self.forecastList.append(contentsOf: weatherForecastHourModel.forecastList)
                 }
-            }
-          
         }
+      
     }
 }

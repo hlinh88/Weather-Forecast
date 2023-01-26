@@ -10,11 +10,11 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var data : OurData
     @ObservedObject var weatherViewModel : WeatherViewModel
-    @ObservedObject var weatherForecastModel : WeatherForecastModel
+    @ObservedObject var weatherForecastViewModel : WeatherForecastViewModel
     var body: some View {
         GeometryReader{proxy in
             let topEdge = proxy.safeAreaInsets.top
-            Home(data: data, weatherViewModel: weatherViewModel, weatherForecastModel: weatherForecastModel, topEdge: topEdge)
+            Home(data: data, weatherViewModel: weatherViewModel, weatherForecastViewModel: weatherForecastViewModel, topEdge: topEdge)
                 .ignoresSafeArea(.all, edges: .top)
         }
        

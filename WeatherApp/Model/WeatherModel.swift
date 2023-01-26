@@ -50,7 +50,7 @@ func getWeatherIcon(id: Int) -> String {
 }
 
 
-public struct WeatherForecastHourModel{
+public struct WeatherForecastModel{
     var forecastList : [WeatherForecastNextHour]
     
     init(response: APIForecastWeather) {

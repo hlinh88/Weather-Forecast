@@ -12,7 +12,9 @@ public final class WeatherService : NSObject{
     private let locationManager = CLLocationManager()
     private let API_KEY = "1602a19a43556d4a825f3b4fe5cdb3b5"
     private var completionHandler : ((WeatherModel) -> Void)?
-    private var completionForecastHandler : ((WeatherForecastHourModel) -> Void)?
+    private var completionForecastHandler : ((WeatherForecastModel) -> Void)?
+    
+    var completionHandlerExecuted = false
     
     public override init(){
         super.init()
@@ -25,7 +27,7 @@ public final class WeatherService : NSObject{
         locationManager.startUpdatingLocation()
     }
     
-    public func loadForecastData(_ completionForecastHandler: @escaping((WeatherForecastHourModel) -> Void)){
+    public func loadForecastData(_ completionForecastHandler: @escaping((WeatherForecastModel) -> Void)){
         self.completionForecastHandler = completionForecastHandler
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
@@ -43,21 +45,24 @@ public final class WeatherService : NSObject{
             }
         }
         .resume()
-        
-        
+
+    }
+    private func makeDataRequestForecast(forCoordinates coordinates: CLLocationCoordinate2D){
         guard let forecastURL = "https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=\(coordinates.latitude)&lon=\(coordinates.longitude)&cnt=24&appid=\(API_KEY)&units=metric"
             .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
         guard let forecastUrl = URL(string: forecastURL) else { return }
-        
-        URLSession.shared.dataTask(with: forecastUrl) { data, response, error in
-            guard error == nil, let data = data else { return }
-            if let response = try? JSONDecoder().decode(APIForecastWeather.self, from: data){
-                self.completionForecastHandler?(WeatherForecastHourModel(response: response))
+        if completionHandlerExecuted == false {
+            completionHandlerExecuted = true
+            URLSession.shared.dataTask(with: forecastUrl) { data, response, error in
+                guard error == nil, let data = data else { return }
+                if let response = try? JSONDecoder().decode(APIForecastWeather.self, from: data){
+                    self.completionForecastHandler?(WeatherForecastModel(response: response))
+                }
             }
+            .resume()
         }
-        .resume()
+       
     }
-   
    
 }
 
@@ -69,6 +74,7 @@ extension WeatherService : CLLocationManagerDelegate {
     ){
         guard let location = locations.first else { return }
         makeDataRequest(forCoordinates: location.coordinate)
+        makeDataRequestForecast(forCoordinates: location.coordinate)
     }
     
     public func locationManager(

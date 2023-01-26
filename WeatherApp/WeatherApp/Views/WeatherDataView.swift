@@ -10,7 +10,7 @@ import SwiftUI
 struct WeatherDataView: View {
     @ObservedObject var data : OurData
     
-    @ObservedObject var weatherForecastModel : WeatherForecastModel
+    @ObservedObject var weatherForecastViewModel : WeatherForecastViewModel
     
     var body: some View {
         VStack(spacing: 8){
@@ -31,8 +31,8 @@ struct WeatherDataView: View {
             } contentView: {
                 ScrollView(.horizontal, showsIndicators: false){
                     HStack(spacing: 15){
-                        ForEach(0..<weatherForecastModel.forecastList.count, id: \.self) { i in
-                            ForecastView(time: weatherForecastModel.forecastList[i].time, celcius: weatherForecastModel.forecastList[i].temp, image: weatherForecastModel.forecastList[i].icon)
+                        ForEach(0..<weatherForecastViewModel.forecastList.count, id: \.self) { i in
+                            ForecastView(time: weatherForecastViewModel.forecastList[i].time, celcius: weatherForecastViewModel.forecastList[i].temp, image: weatherForecastViewModel.forecastList[i].icon)
                            }
                     }
                 }
@@ -182,22 +182,34 @@ struct ForecastView: View {
         VStack(){
             Text(time)
                 .font(.custom("HelveticaNeue-Medium", size: 13))
-            image.contains(find: "sun") ?
-            Image(systemName: image)
-                .resizable()
-                .scaledToFit()
-                .symbolVariant(.fill)
-                .symbolRenderingMode(.palette)
-                .foregroundStyle(.yellow, .white)
-                .frame(width: 25, height: 25)
-            :
-            Image(systemName: image)
-                .resizable()
-                .scaledToFit()
-                .symbolVariant(.fill)
-                .symbolRenderingMode(.palette)
-                .foregroundStyle(.white, .white)
-                .frame(width: 25, height: 25)
+            if(image.contains(find: "sun")){
+                Image(systemName: image)
+                    .resizable()
+                    .scaledToFit()
+                    .symbolVariant(.fill)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.yellow, .white)
+                    .frame(width: 25, height: 25)
+            }
+            if(image.contains(find: "cloud.rain") || image.contains(find: "cloud.drizzle") || image.contains(find: "cloud.snow")){
+                Image(systemName: image)
+                    .resizable()
+                    .scaledToFit()
+                    .symbolVariant(.fill)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.white, .cyan)
+                    .frame(width: 25, height: 25)
+            }
+            if(image.contains(find: "cloud.fog") || image.contains(find: "cloud.fill")){
+                Image(systemName: image)
+                    .resizable()
+                    .scaledToFit()
+                    .symbolVariant(.fill)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.white)
+                    .frame(width: 25, height: 25)
+            }
+            
             Text("\(celcius)°")
                 .font(.custom("HelveticaNeue", size: 20))
         }
