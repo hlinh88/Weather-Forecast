@@ -2,8 +2,9 @@
 //  WeatherData.swift
 //  WeatherApp
 //
-//  Created by Hoang Linh Nguyen on 24/1/2023.
+//  Created by Hoang Linh Nguyen on 26/1/2023.
 //
+
 
 import SwiftUI
 
@@ -22,7 +23,7 @@ struct Main : Decodable {
 struct Weather : Decodable{
     let id : Int
     let main : String
-    let description : String 
+    let description : String
 }
 
 struct List : Decodable{
