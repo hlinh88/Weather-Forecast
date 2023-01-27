@@ -35,7 +35,6 @@
 		5EC18EC2297D82E000F5F622 /* CustomCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC18EC1297D82E000F5F622 /* CustomCorner.swift */; };
 		5EC18EC4297D9AA400F5F622 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC18EC3297D9AA400F5F622 /* Home.swift */; };
 		5EC18EC6297DA5B600F5F622 /* WeatherDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC18EC5297DA5B600F5F622 /* WeatherDataView.swift */; };
-		5ED03131297EE2D700864242 /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED03130297EE2D700864242 /* Forecast.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,7 +87,6 @@
 		5EC18EC1297D82E000F5F622 /* CustomCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCorner.swift; sourceTree = "<group>"; };
 		5EC18EC3297D9AA400F5F622 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		5EC18EC5297DA5B600F5F622 /* WeatherDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataView.swift; sourceTree = "<group>"; };
-		5ED03130297EE2D700864242 /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,7 +224,6 @@
 		5ED0312F297EE2BE00864242 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5ED03130297EE2D700864242 /* Forecast.swift */,
 				5E44EA6129800291001F933C /* Data.swift */,
 				5EAB813629829FB900E40AB6 /* WeatherService.swift */,
 				5EAB81382982A04800E40AB6 /* WeatherModel.swift */,
@@ -376,7 +373,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5ED03131297EE2D700864242 /* Forecast.swift in Sources */,
 				5EAB813B2982AEF800E40AB6 /* WeatherViewModel.swift in Sources */,
 				5EC18EC0297D43DE00F5F622 /* CustomStackView.swift in Sources */,
 				5EAB813729829FB900E40AB6 /* WeatherService.swift in Sources */,
