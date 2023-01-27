@@ -24,14 +24,14 @@ public struct WeatherModel {
         weatherCondition = response.weather[0].description.capitalized
         temp_min = Int(response.main.temp_min.rounded())
         temp_max = Int(response.main.temp_max.rounded())
-        sunrise = "\(getDateFromTimeStamp(timeStamp: Double(response.sys.sunrise)))"
-        sunset = "\(getDateFromTimeStamp(timeStamp: Double(response.sys.sunset)))"
+        sunrise = "\(getTimeFromTimeStamp(timeStamp: Double(response.sys.sunrise)))"
+        sunset = "\(getTimeFromTimeStamp(timeStamp: Double(response.sys.sunset)))"
     }
     
    
 }
 
-func getDateFromTimeStamp(timeStamp : Double) -> String {
+func getTimeFromTimeStamp(timeStamp : Double) -> String {
 
         let date = NSDate(timeIntervalSince1970: timeStamp)
         
@@ -59,7 +59,7 @@ func getWeatherIcon(id: Int) -> String {
     case 800:
         return "sun.max.fill"
     case 801...804:
-        return "cloud.fill"
+        return "cloud.sun.fill"
     default:
         return "cloud.fill"
 
@@ -107,3 +107,74 @@ struct WeatherForecastNextHour{
     var icon : String
 }
 
+struct Weather10Day{
+    var day : String
+    var temp_min : Int
+    var temp_max : Int
+    var icon : String
+}
+
+
+public struct Weather10DayModel{
+    var forecast10 : [Weather10Day]
+    
+    init(response: APIForecast10DayWeather){
+        var list : [Weather10Day] = []
+        for index in 0..<response.list.count{
+            var day = "\(getDateFromTimeStamp(timeStamp: Double(response.list[index].dt)))"
+            day = getDayOfWeek(day)!
+            let temp_min = Int(response.list[index].temp.min)
+            let temp_max = Int(response.list[index].temp.max)
+            let icon = getWeatherIcon(id: response.list[index].weather[0].id)
+            list.append(Weather10Day(day: day, temp_min: temp_min, temp_max: temp_max, icon: icon))
+        }
+        forecast10 = list
+    }
+
+    
+}
+
+func getDayOfWeek(_ today:String) -> String? {
+    let formatter  = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd"
+    let date = Date()
+    let currentDate = formatter.string(from: date)
+    guard let todayDate = formatter.date(from: today) else { return nil }
+    if (currentDate == today){
+        return "Today"
+    }
+    let myCalendar = Calendar(identifier: .gregorian)
+    let weekDay = myCalendar.component(.weekday, from: todayDate)
+    switch weekDay{
+    case 1:
+        return "Sun"
+    case 2:
+        return "Mon"
+    case 3:
+        return "Tue"
+    case 4:
+        return "Wed"
+    case 5:
+        return "Thu"
+    case 6:
+        return "Fri"
+    case 7:
+        return "Sat"
+    default:
+        return ""
+    }
+
+}
+
+func getDateFromTimeStamp(timeStamp : Double) -> String {
+
+        let date = NSDate(timeIntervalSince1970: timeStamp)
+        
+        let dayTimePeriodFormatter = DateFormatter()
+
+     // UnComment below to get only time
+        dayTimePeriodFormatter.dateFormat = "yyyy-MM-dd"
+
+        let dateString = dayTimePeriodFormatter.string(from: date as Date)
+        return dateString
+    }

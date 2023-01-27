@@ -13,9 +13,11 @@ public final class WeatherService : NSObject{
     private let API_KEY = "1602a19a43556d4a825f3b4fe5cdb3b5"
     private var completionHandler : ((WeatherModel) -> Void)?
     private var completionForecastHandler : ((WeatherForecastModel) -> Void)?
+    private var completionForecast10DayHandler : ((Weather10DayModel) -> Void)?
     
     var handlerWeatherExecuted = false
     var handlerForcastExecuted = false
+    var handlerForecast10DayExecuted = false
     
     public override init(){
         super.init()
@@ -30,6 +32,12 @@ public final class WeatherService : NSObject{
     
     public func loadForecastData(_ completionForecastHandler: @escaping((WeatherForecastModel) -> Void)){
         self.completionForecastHandler = completionForecastHandler
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+    }
+    
+    public func loadForecast10DayData(_ completionForecast10DayHandler: @escaping((Weather10DayModel) -> Void)){
+        self.completionForecast10DayHandler = completionForecast10DayHandler
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
     }
@@ -66,6 +74,23 @@ public final class WeatherService : NSObject{
         }
        
     }
+    
+    private func makeDataRequestForecast10Day(forCoordinates coordinates: CLLocationCoordinate2D){
+        guard let forecast10DayURL = "https://api.openweathermap.org/data/2.5/forecast/daily?lat=\(coordinates.latitude)&lon=\(coordinates.longitude)&cnt=10&appid=\(API_KEY)&units=metric"
+            .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
+        guard let forecast10DayUrl = URL(string: forecast10DayURL) else { return }
+        if handlerForecast10DayExecuted == false {
+            handlerForecast10DayExecuted = true
+            URLSession.shared.dataTask(with: forecast10DayUrl) { data, response, error in
+                guard error == nil, let data = data else { return }
+                if let response = try? JSONDecoder().decode(APIForecast10DayWeather.self, from: data){
+                    self.completionForecast10DayHandler?(Weather10DayModel(response: response))
+                }
+            }
+            .resume()
+        }
+       
+    }
    
 }
 
@@ -78,6 +103,7 @@ extension WeatherService : CLLocationManagerDelegate {
         guard let location = locations.first else { return }
         makeDataRequest(forCoordinates: location.coordinate)
         makeDataRequestForecast(forCoordinates: location.coordinate)
+        makeDataRequestForecast10Day(forCoordinates: location.coordinate)
     }
     
     public func locationManager(
@@ -113,12 +139,30 @@ struct Sys : Decodable{
     let sunset : Int
 }
 
+struct Temp : Decodable{
+    let day : Double
+    let min : Double
+    let max : Double
+}
+
 struct List : Decodable{
     let dt_txt : String
     let main : Main
     let weather : [Weather]
 }
 
+struct List10Day : Decodable{
+    let dt : Int
+    let temp : Temp
+    let weather : [Weather]
+}
+
+
+
 struct APIForecastWeather : Decodable{
     let list : [List]
+}
+
+struct APIForecast10DayWeather : Decodable{
+    let list : [List10Day]
 }

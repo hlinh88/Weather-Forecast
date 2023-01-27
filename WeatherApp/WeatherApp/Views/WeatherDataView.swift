@@ -13,6 +13,8 @@ struct WeatherDataView: View {
     @ObservedObject var weatherViewModel : WeatherViewModel
     
     @ObservedObject var weatherForecastViewModel : WeatherForecastViewModel
+    
+    @ObservedObject var weather10DayViewModel : WeatherForecast10DayViewModel
 
     
     var body: some View {
@@ -57,6 +59,32 @@ struct WeatherDataView: View {
                     }
                 }
             }
+            
+            CustomStackView {
+                Label{
+                    Text("10-DAY FORECAST")
+                        .font(.custom("HelveticaNeue-Bold", size: 15))
+                        .foregroundColor(.white)
+                        .opacity(0.7)
+                    
+                }
+            icon:{
+                Image(systemName: "calendar")
+                    .foregroundColor(.white)
+                    .opacity(0.7)
+            }
+            .padding(.horizontal, 15)
+            } contentView: {
+                VStack(alignment: .leading, spacing: 10){
+                    ForEach(0..<weather10DayViewModel.forecast10DayList.count, id: \.self) { index in
+                        Forecast10DayView(day: weather10DayViewModel.forecast10DayList[index].day, icon: weather10DayViewModel.forecast10DayList[index].icon, temp_min: weather10DayViewModel.forecast10DayList[index].temp_min, temp_max: weather10DayViewModel.forecast10DayList[index].temp_max)
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                
+            }
+            
+            
             CustomStackView {
                 Label{
                     Text("PRECITIPATION")
@@ -130,64 +158,7 @@ struct WeatherDataView: View {
                 
             }
             
-            CustomStackView {
-                Label{
-                    Text("10-DAY FORECAST")
-                        .font(.custom("HelveticaNeue-Bold", size: 15))
-                        .foregroundColor(.white)
-                        .opacity(0.7)
-                    
-                }
-            icon:{
-                Image(systemName: "calendar")
-                    .foregroundColor(.white)
-                    .opacity(0.7)
-            }
-            .padding(.horizontal, 15)
-            } contentView: {
-                VStack(alignment: .leading, spacing: 10){
-                    ForEach(forecast){
-                        cast in
-                        HStack(spacing: 10){
-                            Text(cast.day)
-                                .font(.custom("HelveticaNeue-Medium", size: 18))
-                                .frame(width: 60, alignment: .leading)
-                            cast.image.contains(find: "cloud.sun") ?
-                            Image(systemName: cast.image)
-                                .symbolVariant(.fill)
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.white, .yellow)
-                                .frame(width: 30)
-                            :
-                            Image(systemName: cast.image)
-                                .symbolVariant(.fill)
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.yellow, .white)
-                                .frame(width: 30)
-                            Text("\(Int(cast.celcius))")
-                                .font(.custom("HelveticaNeue-Medium", size: 18))
-                            
-                            ZStack(alignment: .leading){
-                                Capsule()
-                                    .fill(.tertiary)
-                                    .foregroundColor(.white)
-                                
-                                GeometryReader{proxy in
-                                    Capsule()
-                                        .fill(.linearGradient(.init(colors: [.cyan, .mint]), startPoint: .leading, endPoint: .trailing))
-                                        .frame(width: (cast.celcius / 32) * proxy.size.width)
-                                }
-                            }
-                            .frame(height: 6)
-                            
-                            Text("\(Int(cast.celcius) + 10)")
-                                .font(.custom("HelveticaNeue-Medium", size: 18))
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                }
-                
-            }
+            
             
         }
     }
@@ -209,7 +180,16 @@ struct ForecastView: View {
                     .symbolVariant(.fill)
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(.white, .yellow)
-                    .frame(width: 25, height: 25)
+                    .frame(width: 25)
+            }
+            else if(image.contains(find: "cloud.sun")){
+                Image(systemName: image)
+                    .resizable()
+                    .scaledToFit()
+                    .symbolVariant(.fill)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.white, .yellow)
+                    .frame(width: 25)
             }
             else if(image.contains(find: "sun")){
                 Image(systemName: image)
@@ -218,7 +198,7 @@ struct ForecastView: View {
                     .symbolVariant(.fill)
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(.yellow, .white)
-                    .frame(width: 25, height: 25)
+                    .frame(width: 25)
             }
             if(image.contains(find: "cloud.rain") || image.contains(find: "cloud.drizzle") || image.contains(find: "cloud.snow")){
                 Image(systemName: image)
@@ -227,7 +207,7 @@ struct ForecastView: View {
                     .symbolVariant(.fill)
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(.white, .cyan)
-                    .frame(width: 25, height: 25)
+                    .frame(width: 25)
             }
             if(image.contains(find: "cloud.fog") || image.contains(find: "cloud.fill")){
                 Image(systemName: image)
@@ -236,7 +216,7 @@ struct ForecastView: View {
                     .symbolVariant(.fill)
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(.white)
-                    .frame(width: 25, height: 25)
+                    .frame(width: 25)
             }
             
             Text("\(celcius)°")
@@ -246,6 +226,68 @@ struct ForecastView: View {
     }
 }
 
-
-
+struct Forecast10DayView : View {
+    var day : String
+    var icon : String
+    var temp_min : Int
+    var temp_max : Int
+    
+    var body: some View{
+        HStack(spacing: 10){
+            Text(day)
+                .font(.custom("HelveticaNeue-Medium", size: 18))
+                .frame(width: 60, alignment: .leading)
+            if(icon.contains(find: "cloud.sun")){
+                Image(systemName: icon)
+                    .symbolVariant(.fill)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.white, .yellow)
+                    .frame(width: 30)
+            }
+            else if(icon.contains(find: "sun")){
+                Image(systemName: icon)
+                    .symbolVariant(.fill)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.yellow, .white)
+                    .frame(width: 30)
+            }
+            if(icon.contains(find: "cloud.rain") || icon.contains(find: "cloud.drizzle") || icon.contains(find: "cloud.snow")){
+                Image(systemName: icon)
+                    .symbolVariant(.fill)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.white, .cyan)
+                    .frame(width: 30)
+            }
+            if(icon.contains(find: "cloud.fog") || icon.contains(find: "cloud.fill")){
+                Image(systemName: icon)
+                    .symbolVariant(.fill)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.white)
+                    .frame(width: 30)
+            }
+            
+            Text("\(temp_min)°")
+                .font(.custom("HelveticaNeue-Medium", size: 18))
+            
+            ZStack(alignment: .leading){
+                Capsule()
+                    .fill(.tertiary)
+                    .foregroundColor(.white)
+                
+                GeometryReader{proxy in
+                    Capsule()
+                        .fill(.linearGradient(.init(colors: [.cyan, .mint]), startPoint: .leading, endPoint: .trailing))
+                        .frame(width: 20)
+                }
+            }
+            .frame(height: 6)
+            
+            Text("\(temp_max)°")
+                .font(.custom("HelveticaNeue-Medium", size: 18))
+        }
+    }
+    
+    
+    
+}
 

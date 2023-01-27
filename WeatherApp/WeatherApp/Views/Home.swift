@@ -19,6 +19,8 @@ struct Home: View {
     
     @ObservedObject var weatherForecastViewModel : WeatherForecastViewModel
     
+    @ObservedObject var weather10DayViewModel : WeatherForecast10DayViewModel
+    
     var topEdge : CGFloat
     
     var body: some View {
@@ -63,7 +65,7 @@ struct Home: View {
                     .offset(y: offset > 0 ? (offset / UIScreen.main.bounds.width) * 100 : 0)
                     .offset(y: getTitleOffset())
                     
-                    WeatherDataView(data: data, weatherViewModel: weatherViewModel, weatherForecastViewModel: weatherForecastViewModel)
+                    WeatherDataView(data: data, weatherViewModel: weatherViewModel, weatherForecastViewModel: weatherForecastViewModel, weather10DayViewModel: weather10DayViewModel)
                     
                     
                 }
@@ -87,6 +89,7 @@ struct Home: View {
         .onAppear{
             weatherViewModel.fetchData()
             weatherForecastViewModel.fetchData()
+            weather10DayViewModel.fetchData()
             let hour = Calendar.current.component(.hour, from: Date())
             getBackground(hour: hour)
         }
