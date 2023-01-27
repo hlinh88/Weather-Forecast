@@ -49,48 +49,48 @@ class OurData : ObservableObject {
         }
     }
     
-    func fetchNextHourWeather(){
-        let currentTimezone = 7
-        let weatherURL = "https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=\(lat)&lon=\(lon)&cnt=24&appid=\(apiKey)&units=metric"
-        if let url = URL(string: weatherURL){
-            let session = URLSession(configuration: .default)
-            
-            session.dataTask(with: url){ (data, response, error) in
-                if error != nil{
-                    print(error!)
-                    return
-                }
-                
-                if let safeData = data {
-                    do{
-                        let decodedData = try JSONDecoder().decode(APIForecastWeather.self, from: safeData)
-                        for index in 0..<decodedData.list.count{
-                            var hour = ""
-                            var time = Int(decodedData.list[index].dt_txt.substring(with: 11..<13))! + currentTimezone
-                            if(time > 24){
-                                time = time - 24
-                            }
-                            if(time > 12){
-                                time = time % 12
-                                hour = "\(time)PM"
-                            }else{
-                                hour = "\(time)AM"
-                            }
-                            let temp = Int(decodedData.list[index].main.temp.rounded())
-                            let icon = self.getWeatherIcon(id: decodedData.list[index].weather[0].id)
-                            DispatchQueue.main.async{
-                                self.forecastArray.append(WeatherForecastNextHour(time: hour, temp: temp, icon: icon))
-                            }
-                        }
-                       
-                    } catch{
-                        print(error)
-                    }
-                }
-                
-            }.resume()
-        }
-    }
+//    func fetchNextHourWeather(){
+//        let currentTimezone = 7
+//        let weatherURL = "https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=\(lat)&lon=\(lon)&cnt=24&appid=\(apiKey)&units=metric"
+//        if let url = URL(string: weatherURL){
+//            let session = URLSession(configuration: .default)
+//            
+//            session.dataTask(with: url){ (data, response, error) in
+//                if error != nil{
+//                    print(error!)
+//                    return
+//                }
+//                
+//                if let safeData = data {
+//                    do{
+//                        let decodedData = try JSONDecoder().decode(APIForecastWeather.self, from: safeData)
+//                        for index in 0..<decodedData.list.count{
+//                            var hour = ""
+//                            var time = Int(decodedData.list[index].dt_txt.substring(with: 11..<13))! + currentTimezone
+//                            if(time > 24){
+//                                time = time - 24
+//                            }
+//                            if(time > 12){
+//                                time = time % 12
+//                                hour = "\(time)PM"
+//                            }else{
+//                                hour = "\(time)AM"
+//                            }
+//                            let temp = Int(decodedData.list[index].main.temp.rounded())
+//                            let icon = self.getWeatherIcon(id: decodedData.list[index].weather[0].id)
+//                            DispatchQueue.main.async{
+//                                self.forecastArray.append(WeatherForecastNextHour(time: hour, temp: temp, icon: icon))
+//                            }
+//                        }
+//                       
+//                    } catch{
+//                        print(error)
+//                    }
+//                }
+//                
+//            }.resume()
+//        }
+//    }
 
     
     func getWeatherIcon(id: Int) -> String {

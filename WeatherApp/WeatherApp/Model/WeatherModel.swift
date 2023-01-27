@@ -16,6 +16,8 @@ public struct WeatherModel {
     var temp_max: Int
     var sunrise : String
     var sunset : String
+    var sunriseNum : Int
+    var sunsetNum : Int
     
     init(response: APICurrentWeather) {
         cityName = response.name
@@ -24,14 +26,16 @@ public struct WeatherModel {
         weatherCondition = response.weather[0].description.capitalized
         temp_min = Int(response.main.temp_min.rounded())
         temp_max = Int(response.main.temp_max.rounded())
-        sunrise = "\(getTimeFromTimeStamp(timeStamp: Double(response.sys.sunrise)))"
-        sunset = "\(getTimeFromTimeStamp(timeStamp: Double(response.sys.sunset)))"
+        sunrise = "\(getTimeStringFromTimeStamp(timeStamp: Double(response.sys.sunrise)))"
+        sunset = "\(getTimeStringFromTimeStamp(timeStamp: Double(response.sys.sunset)))"
+        sunriseNum = Int(getTimeNumFromTimeStamp(timeStamp: Double(response.sys.sunrise)).substring(with: 0..<2))!
+        sunsetNum = Int(getTimeNumFromTimeStamp(timeStamp: Double(response.sys.sunset)).substring(with: 0..<2))!
     }
     
    
 }
 
-func getTimeFromTimeStamp(timeStamp : Double) -> String {
+func getTimeStringFromTimeStamp(timeStamp : Double) -> String {
 
         let date = NSDate(timeIntervalSince1970: timeStamp)
         
@@ -39,6 +43,19 @@ func getTimeFromTimeStamp(timeStamp : Double) -> String {
 
      // UnComment below to get only time
         dayTimePeriodFormatter.dateFormat = "h:mma"
+
+        let dateString = dayTimePeriodFormatter.string(from: date as Date)
+        return dateString
+    }
+
+func getTimeNumFromTimeStamp(timeStamp : Double) -> String {
+
+        let date = NSDate(timeIntervalSince1970: timeStamp)
+        
+        let dayTimePeriodFormatter = DateFormatter()
+
+     // UnComment below to get only time
+        dayTimePeriodFormatter.dateFormat = "HH:mm"
 
         let dateString = dayTimePeriodFormatter.string(from: date as Date)
         return dateString
@@ -59,7 +76,7 @@ func getWeatherIcon(id: Int) -> String {
     case 800:
         return "sun.max.fill"
     case 801...804:
-        return "cloud.sun.fill"
+        return "cloud.fill"
     default:
         return "cloud.fill"
 
@@ -75,10 +92,15 @@ public struct WeatherForecastModel{
         var list : [WeatherForecastNextHour] = []
         for index in 0..<response.list.count{
             var hour = ""
+            var timeNum = 0
             var convertedTime = Int(response.list[index].dt_txt.substring(with: 11..<13))! + currentTimezone
             if(convertedTime > 24){
                 convertedTime = convertedTime - 24
+                timeNum = convertedTime
+            }else{
+                timeNum = convertedTime
             }
+            
             if(convertedTime > 12){
                 if(convertedTime == 24){
                     hour = "12AM"
@@ -95,7 +117,7 @@ public struct WeatherForecastModel{
             let time = "\(hour)"
             let temp = Int(response.list[index].main.temp.rounded())
             let icon = getWeatherIcon(id: response.list[index].weather[0].id)
-            list.append(WeatherForecastNextHour(time: time, temp: temp, icon: icon))
+            list.append(WeatherForecastNextHour(time: time, temp: temp, icon: icon, timeNum: timeNum))
         }
         forecastList = list
     }
@@ -105,6 +127,7 @@ struct WeatherForecastNextHour{
     var time : String
     var temp : Int
     var icon : String
+    var timeNum : Int
 }
 
 struct Weather10Day{

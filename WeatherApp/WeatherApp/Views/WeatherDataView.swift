@@ -15,7 +15,7 @@ struct WeatherDataView: View {
     @ObservedObject var weatherForecastViewModel : WeatherForecastViewModel
     
     @ObservedObject var weather10DayViewModel : WeatherForecast10DayViewModel
-
+    
     
     var body: some View {
         VStack(spacing: 8){
@@ -39,19 +39,22 @@ struct WeatherDataView: View {
                     HStack(spacing: 15){
                         ForecastView(time: "Now", celcius: "\(weatherViewModel.temp)", image: weatherViewModel.icon)
                         ForEach(0..<weatherForecastViewModel.forecastList.count, id: \.self) { i in
-                            let time = weatherForecastViewModel.forecastList[i].time
-                            let sunset = "\(weatherViewModel.sunset.substring(with: 0..<1))\(weatherViewModel.sunset.substring(with: 4..<6))"
-                            let sunrise = "\(weatherViewModel.sunrise.substring(with: 0..<1))\(weatherViewModel.sunrise.substring(with: 4..<6))"
-
+                            let time = weatherForecastViewModel.forecastList[i].timeNum
+                            let sunset = weatherViewModel.sunsetNum
+                            let sunrise = weatherViewModel.sunriseNum
+                            
+                            
                             ForecastView(time: weatherForecastViewModel.forecastList[i].time, celcius: "\(weatherForecastViewModel.forecastList[i].temp)", image: weatherForecastViewModel.forecastList[i].icon)
                             
-                            // Display sunrise and sunset after time
+                            
+                            
+                            
                             if(time == sunrise){
                                 ForecastView(time: weatherViewModel.sunrise, celcius: "Sunrise", image: "sunrise.fill")
                             }
                             
                             if(time == sunset){
-                                ForecastView(time: weatherViewModel.sunset, celcius: "Sunset", image: "sunset.fill")
+                                ForecastView(time: weatherViewModel.sunset, celcius: "Sunset" , image: "sunset.fill")
                             }
                             
                             
@@ -180,7 +183,7 @@ struct ForecastView: View {
                     .symbolVariant(.fill)
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(.white, .yellow)
-                    .frame(width: 25)
+                    .frame(width: 25, height: 25)
             }
             else if(image.contains(find: "cloud.sun")){
                 Image(systemName: image)
@@ -189,7 +192,7 @@ struct ForecastView: View {
                     .symbolVariant(.fill)
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(.white, .yellow)
-                    .frame(width: 25)
+                    .frame(width: 25, height: 25)
             }
             else if(image.contains(find: "sun")){
                 Image(systemName: image)
@@ -198,7 +201,7 @@ struct ForecastView: View {
                     .symbolVariant(.fill)
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(.yellow, .white)
-                    .frame(width: 25)
+                    .frame(width: 25, height: 25)
             }
             if(image.contains(find: "cloud.rain") || image.contains(find: "cloud.drizzle") || image.contains(find: "cloud.snow")){
                 Image(systemName: image)
@@ -207,7 +210,7 @@ struct ForecastView: View {
                     .symbolVariant(.fill)
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(.white, .cyan)
-                    .frame(width: 25)
+                    .frame(width: 25, height: 25)
             }
             if(image.contains(find: "cloud.fog") || image.contains(find: "cloud.fill")){
                 Image(systemName: image)
@@ -216,11 +219,16 @@ struct ForecastView: View {
                     .symbolVariant(.fill)
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(.white)
-                    .frame(width: 25)
+                    .frame(width: 25, height: 25)
             }
-            
-            Text("\(celcius)°")
-                .font(.custom("HelveticaNeue", size: 20))
+            if("\(celcius)" == "Sunrise" || "\(celcius)" == "Sunset"){
+                Text("\(celcius)")
+                    .font(.custom("HelveticaNeue", size: 20))
+            }else{
+                Text("\(celcius)°")
+                    .font(.custom("HelveticaNeue", size: 20))
+            }
+           
         }
         .padding(.horizontal, 5)
     }
@@ -265,7 +273,6 @@ struct Forecast10DayView : View {
                     .foregroundStyle(.white)
                     .frame(width: 30)
             }
-            
             Text("\(temp_min)°")
                 .font(.custom("HelveticaNeue-Medium", size: 18))
             
