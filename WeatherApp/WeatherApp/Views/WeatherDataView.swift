@@ -13,6 +13,7 @@ struct WeatherDataView: View {
     @ObservedObject var weatherViewModel : WeatherViewModel
     
     @ObservedObject var weatherForecastViewModel : WeatherForecastViewModel
+
     
     var body: some View {
         VStack(spacing: 8){
@@ -36,15 +37,21 @@ struct WeatherDataView: View {
                     HStack(spacing: 15){
                         ForecastView(time: "Now", celcius: "\(weatherViewModel.temp)", image: weatherViewModel.icon)
                         ForEach(0..<weatherForecastViewModel.forecastList.count, id: \.self) { i in
-                            var time = weatherForecastViewModel.forecastList[i].time.substring(with: 0..<1)
-                            var sunset = weatherViewModel.sunset.substring(with: 0..<1)
-                            
+                            let time = weatherForecastViewModel.forecastList[i].time
+                            let sunset = "\(weatherViewModel.sunset.substring(with: 0..<1))\(weatherViewModel.sunset.substring(with: 4..<6))"
+                            let sunrise = "\(weatherViewModel.sunrise.substring(with: 0..<1))\(weatherViewModel.sunrise.substring(with: 4..<6))"
+
                             ForecastView(time: weatherForecastViewModel.forecastList[i].time, celcius: "\(weatherForecastViewModel.forecastList[i].temp)", image: weatherForecastViewModel.forecastList[i].icon)
                             
-                            // Display sunset after time
+                            // Display sunrise and sunset after time
+                            if(time == sunrise){
+                                ForecastView(time: weatherViewModel.sunrise, celcius: "Sunrise", image: "sunrise.fill")
+                            }
+                            
                             if(time == sunset){
                                 ForecastView(time: weatherViewModel.sunset, celcius: "Sunset", image: "sunset.fill")
                             }
+                            
                             
                         }
                     }
@@ -195,7 +202,7 @@ struct ForecastView: View {
         VStack(){
             Text(time)
                 .font(.custom("HelveticaNeue-Medium", size: 13))
-            if(image.contains(find: "sunset")){
+            if(image.contains(find: "sunset") || image.contains(find: "sunrise")){
                 Image(systemName: image)
                     .resizable()
                     .scaledToFit()
