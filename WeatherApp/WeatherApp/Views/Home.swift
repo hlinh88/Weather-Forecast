@@ -63,7 +63,7 @@ struct Home: View {
                     .offset(y: offset > 0 ? (offset / UIScreen.main.bounds.width) * 100 : 0)
                     .offset(y: getTitleOffset())
                     
-                    WeatherDataView(data: data, weatherForecastViewModel: weatherForecastViewModel)
+                    WeatherDataView(data: data, weatherViewModel: weatherViewModel, weatherForecastViewModel: weatherForecastViewModel)
                     
                     
                 }

@@ -10,6 +10,8 @@ import SwiftUI
 struct WeatherDataView: View {
     @ObservedObject var data : OurData
     
+    @ObservedObject var weatherViewModel : WeatherViewModel
+    
     @ObservedObject var weatherForecastViewModel : WeatherForecastViewModel
     
     var body: some View {
@@ -31,6 +33,7 @@ struct WeatherDataView: View {
             } contentView: {
                 ScrollView(.horizontal, showsIndicators: false){
                     HStack(spacing: 15){
+                        ForecastView(time: "Now", celcius: weatherViewModel.temp, image: weatherViewModel.icon)
                         ForEach(0..<weatherForecastViewModel.forecastList.count, id: \.self) { i in
                             ForecastView(time: weatherForecastViewModel.forecastList[i].time, celcius: weatherForecastViewModel.forecastList[i].temp, image: weatherForecastViewModel.forecastList[i].icon)
                            }
