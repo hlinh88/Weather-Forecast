@@ -14,6 +14,8 @@ public class WeatherViewModel: ObservableObject{
     @Published var weatherCondition: String = ""
     @Published var temp_min: Int = 0
     @Published var temp_max: Int = 0
+    @Published var sunrise: String = ""
+    @Published var sunset: String = ""
     
     public let weatherService: WeatherService
     
@@ -30,6 +32,8 @@ public class WeatherViewModel: ObservableObject{
                 self.weatherCondition = weatherModel.weatherCondition
                 self.temp_min = weatherModel.temp_min
                 self.temp_max = weatherModel.temp_max
+                self.sunrise = weatherModel.sunrise
+                self.sunset = weatherModel.sunset
             }
         }
     }

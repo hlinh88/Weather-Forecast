@@ -22,21 +22,31 @@ struct WeatherDataView: View {
                         .font(.custom("HelveticaNeue-Medium", size: 13))
                         .foregroundColor(.white)
                         .opacity(0.7)
-                     
+                    
                 }
-                icon:{
-                    Image(systemName: "clock")
-                        .foregroundColor(.white)
-                        .opacity(0.7)
-                }
-                .padding(.horizontal, 15)
+            icon:{
+                Image(systemName: "clock")
+                    .foregroundColor(.white)
+                    .opacity(0.7)
+            }
+            .padding(.horizontal, 15)
             } contentView: {
                 ScrollView(.horizontal, showsIndicators: false){
+                    
                     HStack(spacing: 15){
-                        ForecastView(time: "Now", celcius: weatherViewModel.temp, image: weatherViewModel.icon)
+                        ForecastView(time: "Now", celcius: "\(weatherViewModel.temp)", image: weatherViewModel.icon)
                         ForEach(0..<weatherForecastViewModel.forecastList.count, id: \.self) { i in
-                            ForecastView(time: weatherForecastViewModel.forecastList[i].time, celcius: weatherForecastViewModel.forecastList[i].temp, image: weatherForecastViewModel.forecastList[i].icon)
-                           }
+                            var time = weatherForecastViewModel.forecastList[i].time.substring(with: 0..<1)
+                            var sunset = weatherViewModel.sunset.substring(with: 0..<1)
+                            
+                            ForecastView(time: weatherForecastViewModel.forecastList[i].time, celcius: "\(weatherForecastViewModel.forecastList[i].temp)", image: weatherForecastViewModel.forecastList[i].icon)
+                            
+                            // Display sunset after time
+                            if(time == sunset){
+                                ForecastView(time: weatherViewModel.sunset, celcius: "Sunset", image: "sunset.fill")
+                            }
+                            
+                        }
                     }
                 }
             }
@@ -46,16 +56,16 @@ struct WeatherDataView: View {
                         .font(.custom("HelveticaNeue-Medium", size: 13))
                         .foregroundColor(.white)
                         .opacity(0.7)
-                     
+                    
                 }
-                icon:{
-                    Image(systemName: "umbrella.fill")
-                        .foregroundColor(.white)
-                        .opacity(0.7)
-                }
-                .padding(.horizontal, 15)
+            icon:{
+                Image(systemName: "umbrella.fill")
+                    .foregroundColor(.white)
+                    .opacity(0.7)
+            }
+            .padding(.horizontal, 15)
             } contentView: {
-              Text("A map will be placed here")
+                Text("A map will be placed here")
                     .frame(maxWidth: .infinity)
                     .font(.custom("HelveticaNeue-Bold", size: 20))
             }
@@ -67,14 +77,14 @@ struct WeatherDataView: View {
                             .font(.custom("HelveticaNeue-Medium", size: 13))
                             .foregroundColor(.white)
                             .opacity(0.7)
-                         
+                        
                     }
-                    icon:{
-                        Image(systemName: "sun.max.fill")
-                            .foregroundColor(.white)
-                            .opacity(0.7)
-                    }
-                    .padding(.horizontal, 15)
+                icon:{
+                    Image(systemName: "sun.max.fill")
+                        .foregroundColor(.white)
+                        .opacity(0.7)
+                }
+                .padding(.horizontal, 15)
                 } contentView: {
                     VStack(alignment: .leading){
                         Text("0")
@@ -92,25 +102,25 @@ struct WeatherDataView: View {
                             .font(.custom("HelveticaNeue-Medium", size: 13))
                             .foregroundColor(.white)
                             .opacity(0.7)
-                         
+                        
                     }
-                    icon:{
-                        Image(systemName: "sunrise.fill")
-                            .foregroundColor(.white)
-                            .opacity(0.7)
-                    }
-                    .padding(.horizontal, 15)
+                icon:{
+                    Image(systemName: "sunrise.fill")
+                        .foregroundColor(.white)
+                        .opacity(0.7)
+                }
+                .padding(.horizontal, 15)
                 } contentView: {
                     VStack(alignment: .leading){
-                        Text("6:35 AM")
+                        Text(weatherViewModel.sunrise)
                             .font(.custom("HelveticaNeue-Bold", size: 20))
-                        Text("Sunset: 5:41PM")
+                        Text("Sunset: \(weatherViewModel.sunset)")
                             .font(.custom("HelveticaNeue-Bold", size: 15))
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 }
                 .frame(maxHeight: .infinity)
-
+                
             }
             
             CustomStackView {
@@ -119,14 +129,14 @@ struct WeatherDataView: View {
                         .font(.custom("HelveticaNeue-Bold", size: 15))
                         .foregroundColor(.white)
                         .opacity(0.7)
-                     
+                    
                 }
-                icon:{
-                    Image(systemName: "calendar")
-                        .foregroundColor(.white)
-                        .opacity(0.7)
-                }
-                .padding(.horizontal, 15)
+            icon:{
+                Image(systemName: "calendar")
+                    .foregroundColor(.white)
+                    .opacity(0.7)
+            }
+            .padding(.horizontal, 15)
             } contentView: {
                 VStack(alignment: .leading, spacing: 10){
                     ForEach(forecast){
@@ -171,21 +181,30 @@ struct WeatherDataView: View {
                 }
                 
             }
-
+            
         }
     }
 }
 
 struct ForecastView: View {
     var time : String
-    var celcius : Int
+    var celcius : String
     var image : String
     
     var body: some View {
         VStack(){
             Text(time)
                 .font(.custom("HelveticaNeue-Medium", size: 13))
-            if(image.contains(find: "sun")){
+            if(image.contains(find: "sunset")){
+                Image(systemName: image)
+                    .resizable()
+                    .scaledToFit()
+                    .symbolVariant(.fill)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.white, .yellow)
+                    .frame(width: 25, height: 25)
+            }
+            else if(image.contains(find: "sun")){
                 Image(systemName: image)
                     .resizable()
                     .scaledToFit()
@@ -222,22 +241,4 @@ struct ForecastView: View {
 
 
 
-extension UIColor {
-    convenience init(hexString: String) {
-        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int = UInt64()
-        Scanner(string: hex).scanHexInt64(&int)
-        let a, r, g, b: UInt64
-        switch hex.count {
-        case 3: // RGB (12-bit)
-            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RGB (24-bit)
-            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-        case 8: // ARGB (32-bit)
-            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
-        default:
-            (a, r, g, b) = (255, 0, 0, 0)
-        }
-        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
-    }
-}
+

@@ -14,6 +14,8 @@ public struct WeatherModel {
     var weatherCondition: String
     var temp_min: Int
     var temp_max: Int
+    var sunrise : String
+    var sunset : String
     
     init(response: APICurrentWeather) {
         cityName = response.name
@@ -22,10 +24,25 @@ public struct WeatherModel {
         weatherCondition = response.weather[0].description.capitalized
         temp_min = Int(response.main.temp_min.rounded())
         temp_max = Int(response.main.temp_max.rounded())
+        sunrise = "\(getDateFromTimeStamp(timeStamp: Double(response.sys.sunrise)))"
+        sunset = "\(getDateFromTimeStamp(timeStamp: Double(response.sys.sunset)))"
     }
     
    
 }
+
+func getDateFromTimeStamp(timeStamp : Double) -> String {
+
+        let date = NSDate(timeIntervalSince1970: timeStamp)
+        
+        let dayTimePeriodFormatter = DateFormatter()
+
+     // UnComment below to get only time
+        dayTimePeriodFormatter.dateFormat = "h:mma"
+
+        let dateString = dayTimePeriodFormatter.string(from: date as Date)
+        return dateString
+    }
 
 func getWeatherIcon(id: Int) -> String {
     switch id{

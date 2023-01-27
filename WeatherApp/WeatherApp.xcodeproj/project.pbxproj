@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E0CB7952983D6F600AC6332 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0CB7942983D6F600AC6332 /* Extension.swift */; };
 		5E2BE52B297AB908001A5836 /* WeatherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2BE52A297AB908001A5836 /* WeatherApp.swift */; };
 		5E2BE52D297AB908001A5836 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2BE52C297AB908001A5836 /* ContentView.swift */; };
 		5E2BE52F297AB909001A5836 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E2BE52E297AB909001A5836 /* Assets.xcassets */; };
@@ -55,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5E0CB7942983D6F600AC6332 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		5E2BE527297AB908001A5836 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E2BE52A297AB908001A5836 /* WeatherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApp.swift; sourceTree = "<group>"; };
 		5E2BE52C297AB908001A5836 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -114,11 +116,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E0CB7932983D6EC00AC6332 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				5E0CB7942983D6F600AC6332 /* Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		5E2BE51E297AB908001A5836 = {
 			isa = PBXGroup;
 			children = (
-				5ED0312F297EE2BE00864242 /* Model */,
-				5EC18EA6297D3E2B00F5F622 /* Fonts */,
 				5E2BE529297AB908001A5836 /* WeatherApp */,
 				5E2BE53A297AB909001A5836 /* WeatherAppTests */,
 				5E2BE544297AB909001A5836 /* WeatherAppUITests */,
@@ -139,6 +147,9 @@
 		5E2BE529297AB908001A5836 /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				5E0CB7932983D6EC00AC6332 /* Extension */,
+				5EC18EA6297D3E2B00F5F622 /* Fonts */,
+				5ED0312F297EE2BE00864242 /* Model */,
 				5EC18EBE297D3F2000F5F622 /* Info.plist */,
 				5E66CFC6297ABA2F002AAD05 /* Components */,
 				5E66CFC3297ABA0C002AAD05 /* Views */,
@@ -374,6 +385,7 @@
 				5E44EA6229800291001F933C /* Data.swift in Sources */,
 				5EC18EA5297D3D0800F5F622 /* Blur.swift in Sources */,
 				5E2BE52D297AB908001A5836 /* ContentView.swift in Sources */,
+				5E0CB7952983D6F600AC6332 /* Extension.swift in Sources */,
 				5EC18EC4297D9AA400F5F622 /* Home.swift in Sources */,
 				5EAB81392982A04800E40AB6 /* WeatherModel.swift in Sources */,
 				5E2BE52B297AB908001A5836 /* WeatherApp.swift in Sources */,

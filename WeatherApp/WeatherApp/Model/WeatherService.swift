@@ -14,7 +14,8 @@ public final class WeatherService : NSObject{
     private var completionHandler : ((WeatherModel) -> Void)?
     private var completionForecastHandler : ((WeatherForecastModel) -> Void)?
     
-    var completionHandlerExecuted = false
+    var handlerWeatherExecuted = false
+    var handlerForcastExecuted = false
     
     public override init(){
         super.init()
@@ -38,21 +39,23 @@ public final class WeatherService : NSObject{
             .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
         guard let weatherUrl = URL(string: weatherURL) else { return }
         
-        URLSession.shared.dataTask(with: weatherUrl) { data, response, error in
-            guard error == nil, let data = data else { return }
-            if let response = try? JSONDecoder().decode(APICurrentWeather.self, from: data){
-                self.completionHandler?(WeatherModel(response: response))
+        if handlerWeatherExecuted == false {
+            handlerWeatherExecuted = true
+            URLSession.shared.dataTask(with: weatherUrl) { data, response, error in
+                guard error == nil, let data = data else { return }
+                if let response = try? JSONDecoder().decode(APICurrentWeather.self, from: data){
+                    self.completionHandler?(WeatherModel(response: response))
+                }
             }
+            .resume()
         }
-        .resume()
-
     }
     private func makeDataRequestForecast(forCoordinates coordinates: CLLocationCoordinate2D){
         guard let forecastURL = "https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=\(coordinates.latitude)&lon=\(coordinates.longitude)&cnt=24&appid=\(API_KEY)&units=metric"
             .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
         guard let forecastUrl = URL(string: forecastURL) else { return }
-        if completionHandlerExecuted == false {
-            completionHandlerExecuted = true
+        if handlerForcastExecuted == false {
+            handlerForcastExecuted = true
             URLSession.shared.dataTask(with: forecastUrl) { data, response, error in
                 guard error == nil, let data = data else { return }
                 if let response = try? JSONDecoder().decode(APIForecastWeather.self, from: data){
@@ -90,6 +93,7 @@ struct APICurrentWeather : Decodable{
     let name : String
     let main : Main
     let weather : [Weather]
+    let sys : Sys
 }
 
 struct Main : Decodable {
@@ -102,6 +106,11 @@ struct Weather : Decodable{
     let id : Int
     let main : String
     let description : String
+}
+
+struct Sys : Decodable{
+    let sunrise : Int
+    let sunset : Int
 }
 
 struct List : Decodable{
