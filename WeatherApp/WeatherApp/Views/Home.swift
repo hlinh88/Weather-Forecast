@@ -64,6 +64,7 @@ struct Home: View {
                     // Bottom drag effect
                     .offset(y: offset > 0 ? (offset / UIScreen.main.bounds.width) * 100 : 0)
                     .offset(y: getTitleOffset())
+                    .padding(.bottom, 25)
                     
                     WeatherDataView(data: data, weatherViewModel: weatherViewModel, weatherForecastViewModel: weatherForecastViewModel, weather10DayViewModel: weather10DayViewModel)
                     
