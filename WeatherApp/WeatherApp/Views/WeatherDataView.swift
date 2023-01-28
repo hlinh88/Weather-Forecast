@@ -16,6 +16,8 @@ struct WeatherDataView: View {
     
     @ObservedObject var weather10DayViewModel : WeatherForecast10DayViewModel
     
+    private let hours = (Calendar.current.component(.hour, from: Date()))
+    
     
     var body: some View {
         VStack(spacing: 8){
@@ -37,7 +39,13 @@ struct WeatherDataView: View {
                 ScrollView(.horizontal, showsIndicators: false){
                     
                     HStack(spacing: 15){
-                        ForecastView(time: "Now", celcius: "\(weatherViewModel.temp)", icon: weatherViewModel.icon)
+                        if((weatherViewModel.sunsetNum <= hours && hours < 24 || hours >= 0 && hours < weatherViewModel.sunriseNum) && weatherViewModel.icon == "cloud.fill"){
+                            ForecastView(time: "Now", celcius: "\(weatherViewModel.temp)", icon: "cloud.moon.fill")
+                        }else if ((weatherViewModel.sunriseNum <= hours && hours <= weatherViewModel.sunsetNum) && weatherViewModel.icon == "cloud.fill"){
+                            ForecastView(time: "Now", celcius: "\(weatherViewModel.temp)", icon: "cloud.sun.fill")
+                        }else{
+                            ForecastView(time: "Now", celcius: "\(weatherViewModel.temp)", icon: weatherViewModel.icon)
+                        }
                         ForEach(0..<weatherForecastViewModel.forecastList.count, id: \.self) { i in
                             let time = weatherForecastViewModel.forecastList[i].timeNum
                             let sunset = weatherViewModel.sunsetNum
@@ -287,8 +295,8 @@ struct Forecast10DayView : View {
                 
                 GeometryReader{proxy in
                     Capsule()
-                        .fill(.linearGradient(.init(colors: [.cyan, .mint]), startPoint: .leading, endPoint: .trailing))
-                        .frame(width: 20)
+                        .fill(.linearGradient(.init(colors: [.cyan, .green, .yellow, .orange, .red]), startPoint: .leading, endPoint: .trailing))
+                        .frame(width: proxy.size.width)
                 }
             }
             .frame(height: 6)

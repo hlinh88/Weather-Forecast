@@ -22,7 +22,7 @@ public struct WeatherModel {
     init(response: APICurrentWeather) {
         cityName = response.name
         temp = Int(response.main.temp)
-        icon = getWeatherIcon(id: response.weather[0].id)
+        icon = getWeatherIconHour(id: response.weather[0].id)
         weatherCondition = response.weather[0].description.capitalized
         temp_min = Int(response.main.temp_min.rounded())
         temp_max = Int(response.main.temp_max.rounded())
@@ -61,7 +61,7 @@ func getTimeNumFromTimeStamp(timeStamp : Double) -> String {
         return dateString
     }
 
-func getWeatherIcon(id: Int) -> String {
+func getWeatherIconHour(id: Int) -> String {
     switch id{
     case 200...232:
         return "cloud.bolt.rain.fill"
@@ -77,6 +77,28 @@ func getWeatherIcon(id: Int) -> String {
         return "cloud.fill"
     case 801...804:
         return "smoke.fill"
+    default:
+        return "cloud.fill"
+
+    }
+}
+
+func getWeatherIcon10Day(id: Int) -> String {
+    switch id{
+    case 200...232:
+        return "cloud.bolt.rain.fill"
+    case 300...321:
+        return "cloud.drizzle.fill"
+    case 500...531:
+        return "cloud.rain.fill"
+    case 600...622:
+        return "cloud.snow.fill"
+    case 701...781:
+        return "cloud.fog.fill"
+    case 800:
+        return "sun.max.fill"
+    case 801...804:
+        return "cloud.fill"
     default:
         return "cloud.fill"
 
@@ -116,7 +138,7 @@ public struct WeatherForecastModel{
             }
             let time = "\(hour)"
             let temp = Int(response.list[index].main.temp.rounded())
-            let icon = getWeatherIcon(id: response.list[index].weather[0].id)
+            let icon = getWeatherIconHour(id: response.list[index].weather[0].id)
             list.append(WeatherForecastNextHour(time: time, temp: temp, icon: icon, timeNum: timeNum))
         }
         forecastList = list
@@ -148,7 +170,7 @@ public struct Weather10DayModel{
             day = getDayOfWeek(day)!
             let temp_min = Int(response.list[index].temp.min)
             let temp_max = Int(response.list[index].temp.max)
-            let icon = getWeatherIcon(id: response.list[index].weather[0].id)
+            let icon = getWeatherIcon10Day(id: response.list[index].weather[0].id)
             list.append(Weather10Day(day: day, temp_min: temp_min, temp_max: temp_max, icon: icon))
         }
         forecast10 = list
