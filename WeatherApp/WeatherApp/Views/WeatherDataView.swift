@@ -37,24 +37,28 @@ struct WeatherDataView: View {
                 ScrollView(.horizontal, showsIndicators: false){
                     
                     HStack(spacing: 15){
-                        ForecastView(time: "Now", celcius: "\(weatherViewModel.temp)", image: weatherViewModel.icon)
+                        ForecastView(time: "Now", celcius: "\(weatherViewModel.temp)", icon: weatherViewModel.icon)
                         ForEach(0..<weatherForecastViewModel.forecastList.count, id: \.self) { i in
                             let time = weatherForecastViewModel.forecastList[i].timeNum
                             let sunset = weatherViewModel.sunsetNum
                             let sunrise = weatherViewModel.sunriseNum
+                            let icon = weatherForecastViewModel.forecastList[i].icon
                             
                             
-                            ForecastView(time: weatherForecastViewModel.forecastList[i].time, celcius: "\(weatherForecastViewModel.forecastList[i].temp)", image: weatherForecastViewModel.forecastList[i].icon)
-                            
-                            
-                            
-                            
+                            if(time <= sunset && time > sunrise && icon == "cloud.fill"){
+                                ForecastView(time: weatherForecastViewModel.forecastList[i].time, celcius: "\(weatherForecastViewModel.forecastList[i].temp)", icon: "cloud.sun.fill")
+                            }else if(time > 0 && time <= sunrise && icon == "cloud.fill"){
+                                ForecastView(time: weatherForecastViewModel.forecastList[i].time, celcius: "\(weatherForecastViewModel.forecastList[i].temp)", icon: "cloud.moon.fill")
+                            }else{
+                                ForecastView(time: weatherForecastViewModel.forecastList[i].time, celcius: "\(weatherForecastViewModel.forecastList[i].temp)", icon: icon)
+                            }
+                        
                             if(time == sunrise){
-                                ForecastView(time: weatherViewModel.sunrise, celcius: "Sunrise", image: "sunrise.fill")
+                                ForecastView(time: weatherViewModel.sunrise, celcius: "Sunrise", icon: "sunrise.fill")
                             }
                             
                             if(time == sunset){
-                                ForecastView(time: weatherViewModel.sunset, celcius: "Sunset" , image: "sunset.fill")
+                                ForecastView(time: weatherViewModel.sunset, celcius: "Sunset" , icon: "sunset.fill")
                             }
                             
                             
@@ -170,14 +174,14 @@ struct WeatherDataView: View {
 struct ForecastView: View {
     var time : String
     var celcius : String
-    var image : String
+    var icon : String
     
     var body: some View {
         VStack(){
             Text(time)
                 .font(.custom("HelveticaNeue-Medium", size: 13))
-            if(image.contains(find: "sunset") || image.contains(find: "sunrise")){
-                Image(systemName: image)
+            if(icon.contains(find: "sunset") || icon.contains(find: "sunrise")){
+                Image(systemName: icon)
                     .resizable()
                     .scaledToFit()
                     .symbolVariant(.fill)
@@ -185,8 +189,8 @@ struct ForecastView: View {
                     .foregroundStyle(.white, .yellow)
                     .frame(width: 25, height: 25)
             }
-            else if(image.contains(find: "cloud.sun")){
-                Image(systemName: image)
+            else if(icon.contains(find: "cloud.sun")){
+                Image(systemName: icon)
                     .resizable()
                     .scaledToFit()
                     .symbolVariant(.fill)
@@ -194,8 +198,8 @@ struct ForecastView: View {
                     .foregroundStyle(.white, .yellow)
                     .frame(width: 25, height: 25)
             }
-            else if(image.contains(find: "sun")){
-                Image(systemName: image)
+            else if(icon.contains(find: "sun")){
+                Image(systemName: icon)
                     .resizable()
                     .scaledToFit()
                     .symbolVariant(.fill)
@@ -203,8 +207,8 @@ struct ForecastView: View {
                     .foregroundStyle(.yellow, .white)
                     .frame(width: 25, height: 25)
             }
-            if(image.contains(find: "cloud.rain") || image.contains(find: "cloud.drizzle") || image.contains(find: "cloud.snow")){
-                Image(systemName: image)
+            if(icon.contains(find: "cloud.rain") || icon.contains(find: "cloud.drizzle") || icon.contains(find: "cloud.snow")){
+                Image(systemName: icon)
                     .resizable()
                     .scaledToFit()
                     .symbolVariant(.fill)
@@ -212,8 +216,8 @@ struct ForecastView: View {
                     .foregroundStyle(.white, .cyan)
                     .frame(width: 25, height: 25)
             }
-            if(image.contains(find: "cloud.fog") || image.contains(find: "cloud.fill")){
-                Image(systemName: image)
+            if(icon.contains(find: "cloud.fog") || icon.contains(find: "cloud.fill") || icon.contains(find: "cloud.moon.fill") || icon.contains(find: "smoke.fill")){
+                Image(systemName: icon)
                     .resizable()
                     .scaledToFit()
                     .symbolVariant(.fill)
@@ -266,7 +270,7 @@ struct Forecast10DayView : View {
                     .foregroundStyle(.white, .cyan)
                     .frame(width: 30)
             }
-            if(icon.contains(find: "cloud.fog") || icon.contains(find: "cloud.fill")){
+            if(icon.contains(find: "cloud.fog") || icon.contains(find: "cloud.fill") || icon.contains(find: "cloud.moon.fill") || icon.contains(find: "smoke.fill")){
                 Image(systemName: icon)
                     .symbolVariant(.fill)
                     .symbolRenderingMode(.palette)

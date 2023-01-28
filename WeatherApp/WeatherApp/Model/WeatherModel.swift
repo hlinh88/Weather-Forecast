@@ -74,9 +74,9 @@ func getWeatherIcon(id: Int) -> String {
     case 701...781:
         return "cloud.fog.fill"
     case 800:
-        return "sun.max.fill"
-    case 801...804:
         return "cloud.fill"
+    case 801...804:
+        return "smoke.fill"
     default:
         return "cloud.fill"
 
