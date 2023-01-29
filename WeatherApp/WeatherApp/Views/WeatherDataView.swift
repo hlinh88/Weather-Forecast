@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import CoreLocation
+import MapKit
 
 struct WeatherDataView: View {
     @ObservedObject var data : OurData
@@ -15,6 +17,18 @@ struct WeatherDataView: View {
     @ObservedObject var weatherForecastViewModel : WeatherForecastViewModel
     
     @ObservedObject var weather10DayViewModel : WeatherForecast10DayViewModel
+    
+    @State var region = MKCoordinateRegion(
+        center:  CLLocationCoordinate2D(
+          latitude: 37.789467,
+          longitude:-122.416772
+        ),
+        span: MKCoordinateSpan(
+          latitudeDelta: 0.5,
+          longitudeDelta: 0.5
+       )
+    )
+
     
     private let hours = (Calendar.current.component(.hour, from: Date()))
     
@@ -94,7 +108,6 @@ struct WeatherDataView: View {
                         .font(.custom("HelveticaNeue-Medium", size: 13))
                         .foregroundColor(.white)
                         .opacity(0.7)
-                    
                 }
             icon:{
                 Image(systemName: "umbrella.fill")
@@ -103,9 +116,14 @@ struct WeatherDataView: View {
             }
             .padding(.horizontal, 15)
             } contentView: {
-                Text("A map will be placed here")
-                    .frame(maxWidth: .infinity)
-                    .font(.custom("HelveticaNeue-Bold", size: 20))
+                ZStack{
+                    Map(coordinateRegion: $region)
+                        .frame(maxWidth: .infinity)
+                    AsyncImage(url: URL(string: "https://maps.openweathermap.org/maps/2.0/weather/PA0/1/1/1?date=1674971054&appid=1602a19a43556d4a825f3b4fe5cdb3b5"))
+                        .frame(maxWidth: .infinity)
+                }
+                .frame(maxWidth: .infinity)
+                .cornerRadius(12)
             }
             
             HStack{
