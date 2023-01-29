@@ -5,6 +5,7 @@
 //  Created by Hoang Linh Nguyen on 23/1/2023.
 //
 
+import Foundation
 import SwiftUI
 import CoreLocation
 import MapKit
@@ -18,17 +19,18 @@ struct WeatherDataView: View {
     
     @ObservedObject var weather10DayViewModel : WeatherForecast10DayViewModel
     
-    @State var region = MKCoordinateRegion(
+    @State private var region = MKCoordinateRegion(
         center:  CLLocationCoordinate2D(
-          latitude: 37.789467,
-          longitude:-122.416772
+            latitude: 0,
+          longitude: 0
         ),
         span: MKCoordinateSpan(
           latitudeDelta: 0.5,
           longitudeDelta: 0.5
        )
     )
-
+    
+    private let timeInterval = Int(NSDate().timeIntervalSince1970)
     
     private let hours = (Calendar.current.component(.hour, from: Date()))
     
@@ -117,13 +119,22 @@ struct WeatherDataView: View {
             .padding(.horizontal, 15)
             } contentView: {
                 ZStack{
-                    Map(coordinateRegion: $region)
+                    Map(coordinateRegion: $region, showsUserLocation: true, userTrackingMode: .constant(.follow))
                         .frame(maxWidth: .infinity)
-                    AsyncImage(url: URL(string: "https://maps.openweathermap.org/maps/2.0/weather/PA0/1/1/1?date=1674971054&appid=1602a19a43556d4a825f3b4fe5cdb3b5"))
-                        .frame(maxWidth: .infinity)
+                        .cornerRadius(12)
+                    AsyncImage(url: URL(string: "https://maps.openweathermap.org/maps/2.0/weather/PA0/1/1/1?date=1675014519&appid=1602a19a43556d4a825f3b4fe5cdb3b5")){ image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxWidth: .infinity)
+                        } placeholder: {
+                            Color.gray.opacity(0.1)
+                        }
+                        .cornerRadius(12)
+                   
                 }
                 .frame(maxWidth: .infinity)
-                .cornerRadius(12)
+                
             }
             
             HStack{

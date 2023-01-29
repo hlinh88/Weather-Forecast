@@ -7,13 +7,15 @@
 
 import SwiftUI
 import CoreLocation
+import MapKit
 
-public final class WeatherService : NSObject{
+public final class WeatherService : NSObject, ObservableObject{
     private let locationManager = CLLocationManager()
     private let API_KEY = "1602a19a43556d4a825f3b4fe5cdb3b5"
     private var completionHandler : ((WeatherModel) -> Void)?
     private var completionForecastHandler : ((WeatherForecastModel) -> Void)?
     private var completionForecast10DayHandler : ((Weather10DayModel) -> Void)?
+
     
     var handlerWeatherExecuted = false
     var handlerForcastExecuted = false
@@ -104,6 +106,7 @@ extension WeatherService : CLLocationManagerDelegate {
         makeDataRequest(forCoordinates: location.coordinate)
         makeDataRequestForecast(forCoordinates: location.coordinate)
         makeDataRequestForecast10Day(forCoordinates: location.coordinate)
+        
     }
     
     public func locationManager(
