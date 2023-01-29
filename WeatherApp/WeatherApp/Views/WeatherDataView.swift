@@ -39,28 +39,16 @@ struct WeatherDataView: View {
                 ScrollView(.horizontal, showsIndicators: false){
                     
                     HStack(spacing: 15){
-                        if((weatherViewModel.sunsetNum <= hours && hours < 24 || hours >= 0 && hours < weatherViewModel.sunriseNum) && weatherViewModel.icon == "cloud.fill"){
-                            ForecastView(time: "Now", celcius: "\(weatherViewModel.temp)", icon: "cloud.moon.fill")
-                        }else if ((weatherViewModel.sunriseNum <= hours && hours <= weatherViewModel.sunsetNum) && weatherViewModel.icon == "cloud.fill"){
-                            ForecastView(time: "Now", celcius: "\(weatherViewModel.temp)", icon: "cloud.sun.fill")
-                        }else{
-                            ForecastView(time: "Now", celcius: "\(weatherViewModel.temp)", icon: weatherViewModel.icon)
-                        }
+                        NowView(hours: hours, sunset: weatherViewModel.sunsetNum, sunrise: weatherViewModel.sunriseNum, icon: weatherViewModel.icon, temp: weatherViewModel.temp)
+
                         ForEach(0..<weatherForecastViewModel.forecastList.count, id: \.self) { i in
                             let time = weatherForecastViewModel.forecastList[i].timeNum
                             let sunset = weatherViewModel.sunsetNum
                             let sunrise = weatherViewModel.sunriseNum
                             let icon = weatherForecastViewModel.forecastList[i].icon
                             
-                            
-                            if(time <= sunset && time > sunrise && icon == "cloud.fill"){
-                                ForecastView(time: weatherForecastViewModel.forecastList[i].time, celcius: "\(weatherForecastViewModel.forecastList[i].temp)", icon: "cloud.sun.fill")
-                            }else if(time > 0 && time <= sunrise && icon == "cloud.fill"){
-                                ForecastView(time: weatherForecastViewModel.forecastList[i].time, celcius: "\(weatherForecastViewModel.forecastList[i].temp)", icon: "cloud.moon.fill")
-                            }else{
-                                ForecastView(time: weatherForecastViewModel.forecastList[i].time, celcius: "\(weatherForecastViewModel.forecastList[i].temp)", icon: icon)
-                            }
-                        
+                            CloudView(time: time, sunset: sunset, sunrise: sunrise, icon: icon, timeDisplay: weatherForecastViewModel.forecastList[i].time, tempDisplay: weatherForecastViewModel.forecastList[i].temp)
+
                             if(time == sunrise){
                                 ForecastView(time: weatherViewModel.sunrise, celcius: "Sunrise", icon: "sunrise.fill")
                             }
@@ -175,6 +163,43 @@ struct WeatherDataView: View {
             
             
             
+        }
+    }
+}
+
+struct NowView : View {
+    var hours : Int
+    var sunset : Int
+    var sunrise : Int
+    var icon : String
+    var temp : Int
+    
+    var body : some View {
+        if((sunset <= hours && hours < 24 || hours >= 0 && hours < sunrise) && icon == "cloud.fill"){
+            ForecastView(time: "Now", celcius: "\(temp)", icon: "cloud.moon.fill")
+        }else if ((sunrise <= hours && hours <= sunset) && icon == "cloud.fill"){
+            ForecastView(time: "Now", celcius: "\(temp)", icon: "cloud.sun.fill")
+        }else{
+            ForecastView(time: "Now", celcius: "\(temp)", icon: icon)
+        }
+    }
+}
+
+struct CloudView : View {
+    var time : Int
+    var sunset: Int
+    var sunrise: Int
+    var icon : String
+    var timeDisplay: String
+    var tempDisplay : Int
+    
+    var body : some View {
+        if(time <= sunset && time > sunrise && icon == "cloud.fill"){
+            ForecastView(time: timeDisplay, celcius: "\(tempDisplay)", icon: "cloud.sun.fill")
+        }else if(time > 0 && time <= sunrise && icon == "cloud.fill" || time > sunset && time <= 24 && icon == "cloud.fill"){
+            ForecastView(time: timeDisplay, celcius: "\(tempDisplay)", icon: "cloud.moon.fill")
+        }else{
+            ForecastView(time: timeDisplay, celcius: "\(tempDisplay)", icon: icon)
         }
     }
 }
