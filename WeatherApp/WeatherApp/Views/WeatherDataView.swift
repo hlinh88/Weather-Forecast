@@ -158,6 +158,20 @@ struct WeatherDataView: View {
                             .font(.custom("HelveticaNeue-Bold", size: 30))
                         Text("Low")
                             .font(.custom("HelveticaNeue-Bold", size: 20))
+                        ZStack(alignment: .leading){
+                            Capsule()
+                                .fill(.linearGradient(.init(colors: [.cyan, .green, .yellow, .orange, .red, .purple]), startPoint: .leading, endPoint: .trailing))
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 6)
+                            Circle()
+                                .fill()
+                                .foregroundColor(.white)
+                                .frame(height: 10)
+                                
+                        }
+                        
+                        Text("Low for the rest of the day.")
+                            .font(.custom("HelveticaNeue", size: 14))
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 }
@@ -177,8 +191,8 @@ struct WeatherDataView: View {
                                 .foregroundColor(.white)
                                 .opacity(0.7)
                         }
-
-                     
+                        
+                        
                     }
                 icon:{
                     if(hours > weatherViewModel.sunriseNum){
@@ -191,7 +205,7 @@ struct WeatherDataView: View {
                             .foregroundColor(.white)
                             .opacity(0.7)
                     }
-                  
+                    
                 }
                 .padding(.horizontal, 15)
                 } contentView: {
@@ -262,7 +276,7 @@ struct SunriseSunsetView : View {
             Text("Sunrise: \(sunriseText)")
                 .font(.custom("HelveticaNeue-Medium", size: 15))
         }
-      
+        
     }
 }
 

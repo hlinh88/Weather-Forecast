@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreLocation
 import MapKit
+import Foundation
 
 public final class WeatherService : NSObject, ObservableObject{
     private let locationManager = CLLocationManager()
@@ -93,6 +94,8 @@ public final class WeatherService : NSObject, ObservableObject{
         }
        
     }
+    
+ 
    
 }
 
@@ -106,7 +109,6 @@ extension WeatherService : CLLocationManagerDelegate {
         makeDataRequest(forCoordinates: location.coordinate)
         makeDataRequestForecast(forCoordinates: location.coordinate)
         makeDataRequestForecast10Day(forCoordinates: location.coordinate)
-        
     }
     
     public func locationManager(
@@ -160,12 +162,18 @@ struct List10Day : Decodable{
     let weather : [Weather]
 }
 
-
-
 struct APIForecastWeather : Decodable{
     let list : [List]
 }
 
 struct APIForecast10DayWeather : Decodable{
     let list : [List10Day]
+}
+
+struct APIUVIndex : Decodable{
+    let result : [Result]
+}
+
+struct Result : Decodable {
+    let uv : Double
 }
