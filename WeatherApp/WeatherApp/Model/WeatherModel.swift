@@ -162,8 +162,11 @@ struct Weather10Day{
 
 public struct Weather10DayModel{
     var forecast10 : [Weather10Day]
+    var highest_temp : Int = 0
+    var lowest_temp : Int
     
     init(response: APIForecast10DayWeather){
+        var low_temp = Int(response.list[0].temp.min)
         var list : [Weather10Day] = []
         for index in 0..<response.list.count{
             var day = "\(getDateFromTimeStamp(timeStamp: Double(response.list[index].dt)))"
@@ -171,9 +174,18 @@ public struct Weather10DayModel{
             let temp_min = Int(response.list[index].temp.min)
             let temp_max = Int(response.list[index].temp.max)
             let icon = getWeatherIcon10Day(id: response.list[index].weather[0].id)
+            if temp_max > highest_temp{
+                highest_temp = temp_max
+            }
+            if temp_min < low_temp{
+                low_temp = temp_min
+            }
+            
             list.append(Weather10Day(day: day, temp_min: temp_min, temp_max: temp_max, icon: icon))
         }
         forecast10 = list
+        lowest_temp = low_temp
+       
     }
 
     

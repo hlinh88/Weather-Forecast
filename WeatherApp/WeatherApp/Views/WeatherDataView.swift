@@ -96,7 +96,7 @@ struct WeatherDataView: View {
             } contentView: {
                 VStack(alignment: .leading, spacing: 10){
                     ForEach(0..<weather10DayViewModel.forecast10DayList.count, id: \.self) { index in
-                        Forecast10DayView(day: weather10DayViewModel.forecast10DayList[index].day, icon: weather10DayViewModel.forecast10DayList[index].icon, temp_min: weather10DayViewModel.forecast10DayList[index].temp_min, temp_max: weather10DayViewModel.forecast10DayList[index].temp_max)
+                        Forecast10DayView(day: weather10DayViewModel.forecast10DayList[index].day, icon: weather10DayViewModel.forecast10DayList[index].icon, temp_min: weather10DayViewModel.forecast10DayList[index].temp_min, temp_max: weather10DayViewModel.forecast10DayList[index].temp_max, highest_temp: weather10DayViewModel.highest_temp, lowest_temp: weather10DayViewModel.lowest_temp)
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -305,6 +305,8 @@ struct Forecast10DayView : View {
     var icon : String
     var temp_min : Int
     var temp_max : Int
+    var highest_temp : Int
+    var lowest_temp : Int
     
     var body: some View{
         HStack(spacing: 10){
@@ -341,6 +343,7 @@ struct Forecast10DayView : View {
             }
             Text("\(temp_min)°")
                 .font(.custom("HelveticaNeue-Medium", size: 18))
+                .opacity(0.5)
             
             ZStack(alignment: .leading){
                 Capsule()
@@ -348,15 +351,23 @@ struct Forecast10DayView : View {
                     .foregroundColor(.white)
                 
                 GeometryReader{proxy in
+               
                     Capsule()
-                        .fill(.linearGradient(.init(colors: [.cyan, .green, .yellow, .orange, .red]), startPoint: .leading, endPoint: .trailing))
-                        .frame(width: proxy.size.width)
+                        .fill(.linearGradient(.init(colors: [.cyan, .green, .yellow, .orange]), startPoint: .leading, endPoint: .trailing))
+                        // set width based on temp max min ratio with highest lowest temp
+                        .frame(width: (proxy.size.width / CGFloat((highest_temp - lowest_temp))) * CGFloat(temp_max - temp_min))
+                        // padding left insets equalizer
+                        .padding(.leading, (proxy.size.width / CGFloat((highest_temp - lowest_temp))) * CGFloat(temp_min - lowest_temp))
+                        // padding right insets equalizer
+                        .padding(.trailing, (proxy.size.width / CGFloat((highest_temp - lowest_temp))) * CGFloat(highest_temp - temp_max))
+                    
                 }
             }
             .frame(height: 6)
             
             Text("\(temp_max)°")
                 .font(.custom("HelveticaNeue-Medium", size: 18))
+          
         }
     }
     

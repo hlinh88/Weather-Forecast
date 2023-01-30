@@ -65,16 +65,21 @@ public class WeatherForecastViewModel : ObservableObject{
 
 public class WeatherForecast10DayViewModel : ObservableObject{
     @Published var forecast10DayList : [Weather10Day] = []
+    @Published var highest_temp : Int = 0
+    @Published var lowest_temp : Int = 0
     
     public let weatherService: WeatherService
     
     public init(weatherService: WeatherService){
         self.weatherService = weatherService
     }
+    
     public func fetchData(){
         weatherService.loadForecast10DayData { Weather10DayModel in
                 DispatchQueue.main.async {
                     self.forecast10DayList.append(contentsOf: Weather10DayModel.forecast10)
+                    self.highest_temp = Weather10DayModel.highest_temp
+                    self.lowest_temp = Weather10DayModel.lowest_temp
                 }
         }
       
