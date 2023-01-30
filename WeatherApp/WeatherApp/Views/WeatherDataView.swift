@@ -22,12 +22,12 @@ struct WeatherDataView: View {
     @State private var region = MKCoordinateRegion(
         center:  CLLocationCoordinate2D(
             latitude: 0,
-          longitude: 0
+            longitude: 0
         ),
         span: MKCoordinateSpan(
-          latitudeDelta: 0.5,
-          longitudeDelta: 0.5
-       )
+            latitudeDelta: 0.5,
+            longitudeDelta: 0.5
+        )
     )
     
     private let timeInterval = Int(NSDate().timeIntervalSince1970)
@@ -56,7 +56,7 @@ struct WeatherDataView: View {
                     
                     HStack(spacing: 15){
                         NowView(hours: hours, sunset: weatherViewModel.sunsetNum, sunrise: weatherViewModel.sunriseNum, icon: weatherViewModel.icon, temp: weatherViewModel.temp)
-
+                        
                         ForEach(0..<weatherForecastViewModel.forecastList.count, id: \.self) { i in
                             let time = weatherForecastViewModel.forecastList[i].timeNum
                             let sunset = weatherViewModel.sunsetNum
@@ -64,7 +64,7 @@ struct WeatherDataView: View {
                             let icon = weatherForecastViewModel.forecastList[i].icon
                             
                             CloudView(time: time, sunset: sunset, sunrise: sunrise, icon: icon, timeDisplay: weatherForecastViewModel.forecastList[i].time, tempDisplay: weatherForecastViewModel.forecastList[i].temp)
-
+                            
                             if(time == sunrise){
                                 ForecastView(time: weatherViewModel.sunrise, celcius: "Sunrise", icon: "sunrise.fill")
                             }
@@ -127,11 +127,11 @@ struct WeatherDataView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(maxWidth: .infinity)
-                        } placeholder: {
-                            Color.gray.opacity(0.1)
-                        }
-                        .cornerRadius(12)
-                   
+                    } placeholder: {
+                        Color.gray.opacity(0.1)
+                    }
+                    .cornerRadius(12)
+                    
                 }
                 .frame(maxWidth: .infinity)
                 
@@ -165,24 +165,38 @@ struct WeatherDataView: View {
                 
                 CustomStackView {
                     Label{
-                        Text("SUNRISE")
-                            .font(.custom("HelveticaNeue-Medium", size: 13))
+                        if(hours > weatherViewModel.sunriseNum){
+                            Text("SUNRISE")
+                                .font(.custom("HelveticaNeue-Medium", size: 13))
+                                .foregroundColor(.white)
+                                .opacity(0.7)
+                            
+                        }else if (hours > weatherViewModel.sunsetNum || hours < weatherViewModel.sunriseNum){
+                            Text("SUNSET")
+                                .font(.custom("HelveticaNeue-Medium", size: 13))
+                                .foregroundColor(.white)
+                                .opacity(0.7)
+                        }
+
+                     
+                    }
+                icon:{
+                    if(hours > weatherViewModel.sunriseNum){
+                        Image(systemName: "sunrise.fill")
                             .foregroundColor(.white)
                             .opacity(0.7)
                         
+                    }else if (hours > weatherViewModel.sunsetNum || hours < weatherViewModel.sunriseNum){
+                        Image(systemName: "sunset.fill")
+                            .foregroundColor(.white)
+                            .opacity(0.7)
                     }
-                icon:{
-                    Image(systemName: "sunrise.fill")
-                        .foregroundColor(.white)
-                        .opacity(0.7)
+                  
                 }
                 .padding(.horizontal, 15)
                 } contentView: {
                     VStack(alignment: .leading){
-                        Text(weatherViewModel.sunrise)
-                            .font(.custom("HelveticaNeue-Bold", size: 20))
-                        Text("Sunset: \(weatherViewModel.sunset)")
-                            .font(.custom("HelveticaNeue-Bold", size: 15))
+                        SunriseSunsetView(hours: hours, sunset: weatherViewModel.sunsetNum, sunrise: weatherViewModel.sunriseNum, sunriseText : weatherViewModel.sunrise, sunsetText : weatherViewModel.sunset )
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 }
@@ -213,6 +227,48 @@ struct NowView : View {
         }
     }
 }
+
+struct SunriseSunsetView : View {
+    var hours : Int
+    var sunset : Int
+    var sunrise : Int
+    var sunriseText : String
+    var sunsetText : String
+    
+    var body : some View {
+        
+        if(hours > sunrise){
+            Text(sunriseText)
+                .font(.custom("HelveticaNeue-Bold", size: 25))
+            Image(systemName: "sunrise.fill")
+                .resizable()
+                .scaledToFit()
+                .symbolVariant(.fill)
+                .symbolRenderingMode(.palette)
+                .foregroundStyle(.white, .yellow)
+                .frame(width: 40, height: 40)
+            Text("Sunset: \(sunsetText)")
+                .font(.custom("HelveticaNeue", size: 15))
+        }else if (hours > sunset || hours < sunrise){
+            Text(sunsetText)
+                .font(.custom("HelveticaNeue-Bold", size: 25))
+            Image(systemName: "sunset.fill")
+                .resizable()
+                .scaledToFit()
+                .symbolVariant(.fill)
+                .symbolRenderingMode(.palette)
+                .foregroundStyle(.white, .yellow)
+                .frame(width: 40, height: 40)
+            Text("Sunrise: \(sunriseText)")
+                .font(.custom("HelveticaNeue-Medium", size: 15))
+        }
+      
+    }
+}
+
+
+
+
 
 struct CloudView : View {
     var time : Int
@@ -294,7 +350,7 @@ struct ForecastView: View {
                 Text("\(celcius)°")
                     .font(.custom("HelveticaNeue", size: 20))
             }
-           
+            
         }
         .padding(.horizontal, 5)
     }
@@ -351,14 +407,14 @@ struct Forecast10DayView : View {
                     .foregroundColor(.white)
                 
                 GeometryReader{proxy in
-               
+                    
                     Capsule()
                         .fill(.linearGradient(.init(colors: [.cyan, .green, .yellow, .orange]), startPoint: .leading, endPoint: .trailing))
-                        // set width based on temp max min ratio with highest lowest temp
+                    // set width based on temp max min ratio with highest lowest temp
                         .frame(width: (proxy.size.width / CGFloat((highest_temp - lowest_temp))) * CGFloat(temp_max - temp_min))
-                        // padding left insets equalizer
+                    // padding left insets equalizer
                         .padding(.leading, (proxy.size.width / CGFloat((highest_temp - lowest_temp))) * CGFloat(temp_min - lowest_temp))
-                        // padding right insets equalizer
+                    // padding right insets equalizer
                         .padding(.trailing, (proxy.size.width / CGFloat((highest_temp - lowest_temp))) * CGFloat(highest_temp - temp_max))
                     
                 }
@@ -367,7 +423,7 @@ struct Forecast10DayView : View {
             
             Text("\(temp_max)°")
                 .font(.custom("HelveticaNeue-Medium", size: 18))
-          
+            
         }
     }
     
