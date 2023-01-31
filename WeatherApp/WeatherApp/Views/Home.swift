@@ -24,76 +24,80 @@ struct Home: View {
     var topEdge : CGFloat
     
     var body: some View {
-        ZStack{
-            GeometryReader{proxy in
-                Image(currentBackground)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: proxy.size.width,  height: proxy.size.height)
-            }
-            .ignoresSafeArea()
-            
-            ScrollView(.vertical, showsIndicators: false){
-                VStack{
-                    VStack(alignment: .center, spacing: 5){
-                        Text(weatherViewModel.cityName)
-                            .font(.custom("HelveticaNeue-Medium", size: 35))
-                            .foregroundStyle(.white)
-                            .shadow(radius: 5)
-                        
-                        Text("\(weatherViewModel.temp)°")
-                            .font(.custom("HelveticaNeue-Medium", size: 70))
-                            .foregroundColor(.white)
-                            .shadow(radius: 5)
-                        
-                        Text(weatherViewModel.weatherCondition)
-                            .font(.custom("HelveticaNeue-Medium", size: 20))
-                            .foregroundStyle(.white)
-                            .foregroundStyle(.secondary)
-                            .shadow(radius: 5)
-                            .opacity(getTitleOpacity())
-                        
-                        Text("H:\(weatherViewModel.temp_max)° L:\(weatherViewModel.temp_min)°")
-                            .font(.custom("HelveticaNeue-Medium", size: 20))
-                            .foregroundStyle(.white)
-                            .shadow(radius: 5)
-                            .foregroundStyle(.primary)
-                            .opacity(getTitleOpacity())
-                    }
-                    .offset(y: -offset)
-                    // Bottom drag effect
-                    .offset(y: offset > 0 ? (offset / UIScreen.main.bounds.width) * 100 : 0)
-                    .offset(y: getTitleOffset())
-                    .padding(.bottom, 25)
-                    
-                    WeatherDataView(data: data, weatherViewModel: weatherViewModel, weatherForecastViewModel: weatherForecastViewModel, weather10DayViewModel: weather10DayViewModel)
-                    
-                    
+        VStack(spacing: 0){
+            ZStack{
+                GeometryReader{proxy in
+                    Image(currentBackground)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: proxy.size.width,  height: proxy.size.height)
                 }
-                .padding(.top, 25)
-                .padding(.top, topEdge)
-                .padding([.horizontal, .bottom])
-                .overlay(
-                    GeometryReader{proxy -> Color in
-                        
-                        let minY = proxy.frame(in: .global).minY
-                        
-                        DispatchQueue.main.async {
-                            self.offset = minY
-                        }
+                .ignoresSafeArea()
+                
+                ScrollView(.vertical, showsIndicators: false){
+                    VStack{
+                        VStack(alignment: .center, spacing: 5){
+                            Text(weatherViewModel.cityName)
+                                .font(.custom("HelveticaNeue-Medium", size: 35))
+                                .foregroundStyle(.white)
+                                .shadow(radius: 5)
                             
-                        return Color.clear
+                            Text("\(weatherViewModel.temp)°")
+                                .font(.custom("HelveticaNeue-Medium", size: 70))
+                                .foregroundColor(.white)
+                                .shadow(radius: 5)
+                            
+                            Text(weatherViewModel.weatherCondition)
+                                .font(.custom("HelveticaNeue-Medium", size: 20))
+                                .foregroundStyle(.white)
+                                .foregroundStyle(.secondary)
+                                .shadow(radius: 5)
+                                .opacity(getTitleOpacity())
+                            
+                            Text("H:\(weatherViewModel.temp_max)° L:\(weatherViewModel.temp_min)°")
+                                .font(.custom("HelveticaNeue-Medium", size: 20))
+                                .foregroundStyle(.white)
+                                .shadow(radius: 5)
+                                .foregroundStyle(.primary)
+                                .opacity(getTitleOpacity())
+                        }
+                        .offset(y: -offset)
+                        // Bottom drag effect
+                        .offset(y: offset > 0 ? (offset / UIScreen.main.bounds.width) * 100 : 0)
+                        .offset(y: getTitleOffset())
+                        .padding(.bottom, 25)
+                        
+                        WeatherDataView(data: data, weatherViewModel: weatherViewModel, weatherForecastViewModel: weatherForecastViewModel, weather10DayViewModel: weather10DayViewModel)
+                        
+                        
                     }
-                )
+                    .padding(.top, 25)
+                    .padding(.top, topEdge)
+                    .padding([.horizontal, .bottom])
+                    .overlay(
+                        GeometryReader{proxy -> Color in
+                            
+                            let minY = proxy.frame(in: .global).minY
+                            
+                            DispatchQueue.main.async {
+                                self.offset = minY
+                            }
+                                
+                            return Color.clear
+                        }
+                    )
+                }
             }
+            .onAppear{
+                weatherViewModel.fetchData()
+                weatherForecastViewModel.fetchData()
+                weather10DayViewModel.fetchData()
+                let hour = Calendar.current.component(.hour, from: Date())
+                getBackground(hour: hour)
+            }
+            BottomNav(bg: currentBackground)
         }
-        .onAppear{
-            weatherViewModel.fetchData()
-            weatherForecastViewModel.fetchData()
-            weather10DayViewModel.fetchData()
-            let hour = Calendar.current.component(.hour, from: Date())
-            getBackground(hour: hour)
-        }
+       
 
        
     }

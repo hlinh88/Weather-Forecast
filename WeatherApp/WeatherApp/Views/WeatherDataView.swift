@@ -170,7 +170,7 @@ struct WeatherDataView: View {
                                 
                         }
                         
-                        Text("Low for the rest of the day.")
+                        Text("Low for the rest of the day.") 
                             .font(.custom("HelveticaNeue", size: 14))
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
