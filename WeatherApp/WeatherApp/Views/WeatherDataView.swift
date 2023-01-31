@@ -11,7 +11,6 @@ import CoreLocation
 import MapKit
 
 struct WeatherDataView: View {
-    @ObservedObject var data : OurData
     
     @ObservedObject var weatherViewModel : WeatherViewModel
     
@@ -440,8 +439,7 @@ struct Forecast10DayView : View {
             
         }
     }
-    
-    
-    
+   
 }
+
 
