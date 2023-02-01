@@ -12,11 +12,14 @@ struct ContentView: View {
     @ObservedObject var weatherForecastViewModel : WeatherForecastViewModel
     @ObservedObject var weather10DayViewModel : WeatherForecast10DayViewModel
     var body: some View {
-        GeometryReader{proxy in
-            let topEdge = proxy.safeAreaInsets.top
-            Home(weatherViewModel: weatherViewModel, weatherForecastViewModel: weatherForecastViewModel, weather10DayViewModel: weather10DayViewModel,  topEdge: topEdge)
-                .ignoresSafeArea(.all, edges: .top)
-        }
+        NavigationView{
+            GeometryReader{proxy in
+                let topEdge = proxy.safeAreaInsets.top
+                Home(weatherViewModel: weatherViewModel, weatherForecastViewModel: weatherForecastViewModel, weather10DayViewModel: weather10DayViewModel,  topEdge: topEdge)
+                    .ignoresSafeArea(.all, edges: .top)
+            }
+        }.navigationBarBackButtonHidden(true)
+       
        
     }
 }

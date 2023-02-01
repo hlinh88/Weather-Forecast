@@ -94,9 +94,10 @@ struct Home: View {
                     let hour = Calendar.current.component(.hour, from: Date())
                     getBackground(hour: hour)
                 }
-                BottomNav(bg: currentBackground)
+                BottomNav( weatherViewModel: weatherViewModel, weatherForecastViewModel: weatherForecastViewModel, weather10DayViewModel: weather10DayViewModel, bg: currentBackground)
             }
         }
+        .navigationBarBackButtonHidden(true)
         
     }
     
@@ -141,6 +142,9 @@ struct Home: View {
 }
 
 struct BottomNav: View {
+    var weatherViewModel : WeatherViewModel
+    var weatherForecastViewModel : WeatherForecastViewModel
+    var weather10DayViewModel : WeatherForecast10DayViewModel
     var bg : String
     var body: some View {
         ZStack(alignment: .top){
@@ -157,7 +161,7 @@ struct BottomNav: View {
                 }
                 Spacer()
                 NavigationLink {
-                    MyWeatherView()
+                    MyWeatherView(text: .constant(""), background: bg, weatherViewModel: weatherViewModel, weatherForecastViewModel: weatherForecastViewModel, weather10DayViewModel: weather10DayViewModel)
                 } label: {
                     Image(systemName: "list.bullet")
                         .imageScale(.large)
