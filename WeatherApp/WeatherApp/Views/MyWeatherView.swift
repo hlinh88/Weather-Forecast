@@ -30,6 +30,7 @@ struct MyWeatherView: View {
                     Text("Weather")
                         .font(.custom("HelveticaNeue-Bold", size: 30))
                         .frame(maxWidth: .infinity, alignment: .leading)
+
                     HStack {
                         HStack{
                             Image(systemName: "magnifyingglass")
@@ -50,9 +51,15 @@ struct MyWeatherView: View {
                                 }
                                    
                             Spacer()
-                            Image(systemName: "mic.fill")
-                                .imageScale(.small)
-                                .foregroundColor(.white)
+                            if isEditing{
+                                Image(systemName: "xmark.circle.fill")
+                                    .imageScale(.small)
+                                    .foregroundColor(.white)
+                                    .onTapGesture {
+                                        self.text = ""
+                                    }
+                            }
+                           
                             
                         }
                         .padding(.horizontal, 10)
@@ -125,7 +132,8 @@ struct MyWeatherView: View {
                             .frame(height: 150)
                             .cornerRadius(15)
                         }
-                        .padding(.vertical, 10)
+                        .padding(.bottom, 5)
+                        
                         ForEach(weatherCityViewModel.cityList, id: \.self) { city in
                             ItemView(cityName: city.cityName, temp: city.temp, weatherCondition: city.weatherCondition, temp_max: city.temp_max, temp_min: city.temp_min, time: city.time)
                            }
@@ -196,6 +204,7 @@ struct ItemView : View {
         .frame(maxWidth: .infinity)
         .frame(height: 150)
         .cornerRadius(15)
+        .padding(.vertical, 5)
     }
 }
 

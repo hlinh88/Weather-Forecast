@@ -102,16 +102,14 @@ public final class WeatherService : NSObject, ObservableObject{
         guard let cityNameURL = "https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&appid=\(API_KEY)&units=metric"
             .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
         guard let cityNameUrl = URL(string: cityNameURL) else { return }
-        if handlerCityNameExecuted == false {
-            handlerCityNameExecuted = true
-            URLSession.shared.dataTask(with: cityNameUrl) { data, response, error in
-                guard error == nil, let data = data else { return }
-                if let response = try? JSONDecoder().decode(APICurrentWeather.self, from: data){
-                    self.searchByCityCompletionHandler?(WeatherModel(response: response))
-                }
+        URLSession.shared.dataTask(with: cityNameUrl) { data, response, error in
+            guard error == nil, let data = data else { return }
+            if let response = try? JSONDecoder().decode(APICurrentWeather.self, from: data){
+                self.searchByCityCompletionHandler?(WeatherModel(response: response))
             }
-            .resume()
         }
+        .resume()
+
        
     }
     
