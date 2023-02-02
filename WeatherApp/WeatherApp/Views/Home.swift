@@ -161,7 +161,7 @@ struct BottomNav: View {
                 }
                 Spacer()
                 NavigationLink {
-                    MyWeatherView(text: .constant(""), background: bg, weatherViewModel: weatherViewModel, weatherForecastViewModel: weatherForecastViewModel, weather10DayViewModel: weather10DayViewModel)
+                    MyWeatherView(background: bg, weatherViewModel: weatherViewModel, weatherForecastViewModel: weatherForecastViewModel, weather10DayViewModel: weather10DayViewModel)
                 } label: {
                     Image(systemName: "list.bullet")
                         .imageScale(.large)

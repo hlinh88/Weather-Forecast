@@ -18,6 +18,7 @@ public struct WeatherModel {
     var sunset : String
     var sunriseNum : Int
     var sunsetNum : Int
+    var dt : String
     
     init(response: APICurrentWeather) {
         cityName = response.name
@@ -30,9 +31,22 @@ public struct WeatherModel {
         sunset = "\(getTimeStringFromTimeStamp(timeStamp: Double(response.sys.sunset)))"
         sunriseNum = Int(getTimeNumFromTimeStamp(timeStamp: Double(response.sys.sunrise)).substring(with: 0..<2))!
         sunsetNum = Int(getTimeNumFromTimeStamp(timeStamp: Double(response.sys.sunset)).substring(with: 0..<2))!
+        dt = timeStampFormat(timeStamp: Double(response.dt))
     }
     
    
+}
+
+func timeStampFormat(timeStamp : Double) -> String {
+    
+    let date = NSDate(timeIntervalSince1970: timeStamp)
+    
+    let dayTimePeriodFormatter = DateFormatter()
+
+    dayTimePeriodFormatter.dateFormat = "h:mm a"
+
+    let dateString = dayTimePeriodFormatter.string(from: date as Date)
+    return dateString
 }
 
 func getTimeStringFromTimeStamp(timeStamp : Double) -> String {
@@ -41,7 +55,6 @@ func getTimeStringFromTimeStamp(timeStamp : Double) -> String {
         
         let dayTimePeriodFormatter = DateFormatter()
 
-     // UnComment below to get only time
         dayTimePeriodFormatter.dateFormat = "h:mma"
 
         let dateString = dayTimePeriodFormatter.string(from: date as Date)

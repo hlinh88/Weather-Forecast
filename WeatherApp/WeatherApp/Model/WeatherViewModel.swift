@@ -7,6 +7,38 @@
 
 import SwiftUI
 
+public class WeatherCityViewModel : ObservableObject{
+    @Published var cityList : [WeatherCityModel] = []
+    
+    public let weatherService: WeatherService
+    
+    public init(weatherService: WeatherService){
+        self.weatherService = weatherService
+    }
+    
+    public func fetchDataByCityName(cityName : String){
+        weatherService.loadWeatherByCityName({ weatherModel in
+            DispatchQueue.main.async {
+                self.cityList.append(WeatherCityModel(cityName: weatherModel.cityName, temp: weatherModel.temp, icon: weatherModel.icon, weatherCondition: weatherModel.weatherCondition, temp_min: weatherModel.temp_min, temp_max:  weatherModel.temp_max, time: weatherModel.dt))
+                print(self.cityList)
+            }
+        }, cityName : cityName)
+    }
+    
+}
+
+struct WeatherCityModel : Hashable{
+    var id = UUID()
+    var cityName : String
+    var temp : Int
+    var icon: String
+    var weatherCondition: String
+    var temp_min: Int
+    var temp_max: Int
+    var time : String
+    
+}
+
 public class WeatherViewModel: ObservableObject{
     @Published var cityName : String = ""
     @Published var temp : Int = 0
@@ -24,6 +56,7 @@ public class WeatherViewModel: ObservableObject{
     public init(weatherService: WeatherService){
         self.weatherService = weatherService
     }
+
     
     public func fetchData(){
         weatherService.loadWeatherData { weatherModel in
@@ -41,6 +74,8 @@ public class WeatherViewModel: ObservableObject{
             }
         }
     }
+    
+    
 }
 
 
@@ -55,11 +90,11 @@ public class WeatherForecastViewModel : ObservableObject{
     
     public func fetchData(){
         weatherService.loadForecastData { weatherForecastHourModel in
-                DispatchQueue.main.async {
-                    self.forecastList.append(contentsOf: weatherForecastHourModel.forecastList)
-                }
+            DispatchQueue.main.async {
+                self.forecastList.append(contentsOf: weatherForecastHourModel.forecastList)
+            }
         }
-      
+        
     }
 }
 
@@ -76,12 +111,12 @@ public class WeatherForecast10DayViewModel : ObservableObject{
     
     public func fetchData(){
         weatherService.loadForecast10DayData { Weather10DayModel in
-                DispatchQueue.main.async {
-                    self.forecast10DayList.append(contentsOf: Weather10DayModel.forecast10)
-                    self.highest_temp = Weather10DayModel.highest_temp
-                    self.lowest_temp = Weather10DayModel.lowest_temp
-                }
+            DispatchQueue.main.async {
+                self.forecast10DayList.append(contentsOf: Weather10DayModel.forecast10)
+                self.highest_temp = Weather10DayModel.highest_temp
+                self.lowest_temp = Weather10DayModel.lowest_temp
+            }
         }
-      
+        
     }
 }

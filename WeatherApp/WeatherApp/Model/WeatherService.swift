@@ -16,11 +16,13 @@ public final class WeatherService : NSObject, ObservableObject{
     private var completionHandler : ((WeatherModel) -> Void)?
     private var completionForecastHandler : ((WeatherForecastModel) -> Void)?
     private var completionForecast10DayHandler : ((Weather10DayModel) -> Void)?
+    private var searchByCityCompletionHandler : ((WeatherModel) -> Void)?
 
     
     var handlerWeatherExecuted = false
     var handlerForcastExecuted = false
     var handlerForecast10DayExecuted = false
+    var handlerCityNameExecuted = false
     
     public override init(){
         super.init()
@@ -95,6 +97,28 @@ public final class WeatherService : NSObject, ObservableObject{
        
     }
     
+    
+    private func makeRequestByCityName(for cityName: String){
+        guard let cityNameURL = "https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&appid=\(API_KEY)&units=metric"
+            .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
+        guard let cityNameUrl = URL(string: cityNameURL) else { return }
+        if handlerCityNameExecuted == false {
+            handlerCityNameExecuted = true
+            URLSession.shared.dataTask(with: cityNameUrl) { data, response, error in
+                guard error == nil, let data = data else { return }
+                if let response = try? JSONDecoder().decode(APICurrentWeather.self, from: data){
+                    self.searchByCityCompletionHandler?(WeatherModel(response: response))
+                }
+            }
+            .resume()
+        }
+       
+    }
+    
+    public func loadWeatherByCityName(_ completionHandler: @escaping((WeatherModel) -> Void), cityName : String){
+        makeRequestByCityName(for: cityName)
+        self.searchByCityCompletionHandler = completionHandler
+    }
  
    
 }
@@ -125,6 +149,8 @@ struct APICurrentWeather : Decodable{
     let main : Main
     let weather : [Weather]
     let sys : Sys
+    let dt : Int
+    let timezone : Int
 }
 
 struct Main : Decodable {

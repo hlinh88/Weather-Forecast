@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import Combine
 
 struct MyWeatherView: View {
-    @Binding var text: String
+    @State private var text: String = ""
     
     var background : String
     
@@ -17,6 +18,8 @@ struct MyWeatherView: View {
     @ObservedObject var weatherForecastViewModel : WeatherForecastViewModel
     
     @ObservedObject var weather10DayViewModel : WeatherForecast10DayViewModel
+    
+    @ObservedObject private var weatherCityViewModel = WeatherCityViewModel(weatherService: WeatherService())
     
     @State private var isEditing = false
     
@@ -35,9 +38,17 @@ struct MyWeatherView: View {
                             TextField("Search for a city or airport", text: $text)
                                 .font(.custom("HelveticaNeue", size: 15))
                                 .padding(.vertical, 10)
+                                .foregroundColor(.white)
                                 .onTapGesture {
                                     self.isEditing = true
                                 }
+                                .onSubmit {
+                                    print(text)
+                                    weatherCityViewModel.fetchDataByCityName(cityName: text)
+                                    self.isEditing = false
+                                    self.text = ""
+                                }
+                                   
                             Spacer()
                             Image(systemName: "mic.fill")
                                 .imageScale(.small)
@@ -114,7 +125,10 @@ struct MyWeatherView: View {
                             .frame(height: 150)
                             .cornerRadius(15)
                         }
-
+                        .padding(.vertical, 10)
+                        ForEach(weatherCityViewModel.cityList, id: \.self) { city in
+                            ItemView(cityName: city.cityName, temp: city.temp, weatherCondition: city.weatherCondition, temp_max: city.temp_max, temp_min: city.temp_min, time: city.time)
+                           }
                       
                         
                     }
@@ -125,6 +139,63 @@ struct MyWeatherView: View {
         }
         .navigationBarBackButtonHidden(true)
        
+    }
+}
+
+struct ItemView : View {
+    var cityName : String
+    var temp : Int
+    var weatherCondition : String
+    var temp_max : Int
+    var temp_min : Int
+    var time : String
+    
+    var body: some View{
+        ZStack{
+            GeometryReader{proxy in
+                Image("bg_default")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: proxy.size.width,  height: proxy.size.height)
+                VStack{
+                    HStack{
+                        VStack{
+                            Text(cityName)
+                                .font(.custom("HelveticaNeue-Bold", size: 25))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .foregroundColor(.white)
+                            Text(time)
+                                .font(.custom("HelveticaNeue-Medium", size: 15))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .foregroundColor(.white)
+                        }
+                    
+                        Spacer()
+                        Text("\(temp)°")
+                            .font(.custom("HelveticaNeue-Bold", size: 50))
+                            .foregroundColor(.white)
+                        
+                    }
+                    .padding(10)
+                    Spacer()
+                    HStack{
+                        Text(weatherCondition)
+                            .font(.custom("HelveticaNeue-Medium", size: 15))
+                            .foregroundColor(.white)
+                        Spacer()
+                        Text("H:\(temp_max)° L:\(temp_min)°")
+                            .font(.custom("HelveticaNeue-Medium", size: 15))
+                            .foregroundColor(.white)
+                    }
+                    .padding(10)
+                   
+                   
+                }
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: 150)
+        .cornerRadius(15)
     }
 }
 
