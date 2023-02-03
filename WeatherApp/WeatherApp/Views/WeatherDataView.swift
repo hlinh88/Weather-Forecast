@@ -95,7 +95,8 @@ struct WeatherDataView: View {
             } contentView: {
                 VStack(alignment: .leading, spacing: 10){
                     ForEach(0..<weather10DayViewModel.forecast10DayList.count, id: \.self) { index in
-                        Forecast10DayView(day: weather10DayViewModel.forecast10DayList[index].day, icon: weather10DayViewModel.forecast10DayList[index].icon, temp_min: weather10DayViewModel.forecast10DayList[index].temp_min, temp_max: weather10DayViewModel.forecast10DayList[index].temp_max, highest_temp: weather10DayViewModel.highest_temp, lowest_temp: weather10DayViewModel.lowest_temp)
+                        Forecast10DayView(day: weather10DayViewModel.forecast10DayList[index].day, icon: weather10DayViewModel.forecast10DayList[index].icon,
+                                          currentTemp: weatherViewModel.temp, temp_min: weather10DayViewModel.forecast10DayList[index].temp_min, temp_max: weather10DayViewModel.forecast10DayList[index].temp_max, highest_temp: weather10DayViewModel.highest_temp, lowest_temp: weather10DayViewModel.lowest_temp)
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -166,10 +167,10 @@ struct WeatherDataView: View {
                                 .fill()
                                 .foregroundColor(.white)
                                 .frame(height: 10)
-                                
+                            
                         }
                         
-                        Text("Low for the rest of the day.") 
+                        Text("Low for the rest of the day.")
                             .font(.custom("HelveticaNeue", size: 14))
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
@@ -372,6 +373,7 @@ struct ForecastView: View {
 struct Forecast10DayView : View {
     var day : String
     var icon : String
+    var currentTemp : Int
     var temp_min : Int
     var temp_max : Int
     var highest_temp : Int
@@ -418,9 +420,7 @@ struct Forecast10DayView : View {
                 Capsule()
                     .fill(.tertiary)
                     .foregroundColor(.white)
-                
                 GeometryReader{proxy in
-                    
                     Capsule()
                         .fill(.linearGradient(.init(colors: [.cyan, .green, .yellow, .orange]), startPoint: .leading, endPoint: .trailing))
                     // set width based on temp max min ratio with highest lowest temp
@@ -429,8 +429,16 @@ struct Forecast10DayView : View {
                         .padding(.leading, (proxy.size.width / CGFloat((highest_temp - lowest_temp))) * CGFloat(temp_min - lowest_temp))
                     // padding right insets equalizer
                         .padding(.trailing, (proxy.size.width / CGFloat((highest_temp - lowest_temp))) * CGFloat(highest_temp - temp_max))
-                    
                 }
+                if (day == "Today"){
+                    GeometryReader{proxy in
+                        Circle()
+                            .fill()
+                            .foregroundColor(.white)
+                            .padding(.leading, (proxy.size.width / CGFloat((highest_temp - lowest_temp))) * CGFloat(currentTemp - lowest_temp))
+                    }
+                }
+                
             }
             .frame(height: 6)
             
@@ -439,7 +447,7 @@ struct Forecast10DayView : View {
             
         }
     }
-   
+    
 }
 
 

@@ -24,7 +24,7 @@ public class WeatherCityViewModel : ObservableObject{
             }
         }, cityName : cityName)
     }
-    
+   
 }
 
 struct WeatherCityModel : Hashable{
@@ -36,7 +36,6 @@ struct WeatherCityModel : Hashable{
     var temp_min: Int
     var temp_max: Int
     var time : String
-    
 }
 
 public class WeatherViewModel: ObservableObject{

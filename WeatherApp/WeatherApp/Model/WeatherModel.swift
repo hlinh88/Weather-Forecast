@@ -32,10 +32,14 @@ public struct WeatherModel {
         sunriseNum = Int(getTimeNumFromTimeStamp(timeStamp: Double(response.sys.sunrise)).substring(with: 0..<2))!
         sunsetNum = Int(getTimeNumFromTimeStamp(timeStamp: Double(response.sys.sunset)).substring(with: 0..<2))!
         dt = timeStampFormat(timeStamp: Double(response.dt))
+
     }
     
    
 }
+
+
+
 
 func timeStampFormat(timeStamp : Double) -> String {
     
