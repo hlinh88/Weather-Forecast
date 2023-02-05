@@ -20,6 +20,7 @@ public struct WeatherModel {
     var sunsetNum : Int
     var dt : String
     var timezone : String
+    var hour : Int
     
     init(response: APICurrentWeather) {
         cityName = response.name
@@ -34,6 +35,7 @@ public struct WeatherModel {
         sunsetNum = Int(getTimeNumFromTimeStamp(timeStamp: Double(response.sys.sunset)).substring(with: 0..<2))!
         dt = timeStampFormat(timeStamp: Double(response.dt))
         timezone = toLocalTime(timezone: response.timezone)
+        hour = getOnlyHour(timezone: response.timezone)
     }
     
    
@@ -69,6 +71,23 @@ func toLocalTime(timezone: Int) -> String {
     }
   
     return "\(hour)"
+}
+
+func getOnlyHour(timezone: Int) -> Int {
+    let currentDate = Date()
+
+    let formatter = DateFormatter()
+    formatter.timeZone = TimeZone(secondsFromGMT:0)
+    formatter.dateFormat = "HH:mma"
+    let defaultTimeZoneStr = formatter.string(from: currentDate)
+    let timezoneOffset = timezone / 3600
+    var convertedTime = Int(defaultTimeZoneStr.substring(with: 0..<2))!+timezoneOffset
+    var hour = ""
+    if(convertedTime > 24){
+        convertedTime = convertedTime - 24
+    }
+    
+    return convertedTime
 }
 
 
