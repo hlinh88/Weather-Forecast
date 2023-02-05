@@ -163,7 +163,7 @@ struct ItemView : View {
     var body: some View{
         ZStack{
             GeometryReader{proxy in
-                Image("bg_default")
+                Image(getBackground(hour: Int(timezone.substring(with: 0..<2))!))
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: proxy.size.width,  height: proxy.size.height)
@@ -179,7 +179,7 @@ struct ItemView : View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .foregroundColor(.white)
                         }
-                    
+                        
                         Spacer()
                         Text("\(temp)°")
                             .font(.custom("HelveticaNeue-Bold", size: 50))
@@ -198,8 +198,8 @@ struct ItemView : View {
                             .foregroundColor(.white)
                     }
                     .padding(10)
-                   
-                   
+                    
+                    
                 }
             }
         }
@@ -208,5 +208,23 @@ struct ItemView : View {
         .cornerRadius(15)
         .padding(.vertical, 5)
     }
+    
+    func getBackground(hour: Int) -> String{
+        switch hour{
+        case 0...6:
+            return "bg_latenight"
+        case 6...12:
+            return "bg_day"
+        case 12...17:
+            return "bg_afternoon"
+        case 17...19:
+            return "bg_lateafter"
+        case 19...24:
+            return "bg_night"
+        default:
+            return "bg_default"
+        }
+    }
+    
 }
 
