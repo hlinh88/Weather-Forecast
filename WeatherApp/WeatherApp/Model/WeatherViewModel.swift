@@ -19,7 +19,7 @@ public class WeatherCityViewModel : ObservableObject{
     public func fetchDataByCityName(cityName : String){
         weatherService.loadWeatherByCityName({ weatherModel in
             DispatchQueue.main.async {
-                self.cityList.append(WeatherCityModel(cityName: weatherModel.cityName, temp: weatherModel.temp, icon: weatherModel.icon, weatherCondition: weatherModel.weatherCondition, temp_min: weatherModel.temp_min, temp_max:  weatherModel.temp_max, time: weatherModel.dt))
+                self.cityList.append(WeatherCityModel(cityName: weatherModel.cityName, temp: weatherModel.temp, icon: weatherModel.icon, weatherCondition: weatherModel.weatherCondition, temp_min: weatherModel.temp_min, temp_max:  weatherModel.temp_max, time: weatherModel.dt, timezone: weatherModel.timezone))
                 print(self.cityList)
             }
         }, cityName : cityName)
@@ -36,6 +36,7 @@ struct WeatherCityModel : Hashable{
     var temp_min: Int
     var temp_max: Int
     var time : String
+    var timezone : String
 }
 
 public class WeatherViewModel: ObservableObject{

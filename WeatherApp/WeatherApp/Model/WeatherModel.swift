@@ -19,6 +19,7 @@ public struct WeatherModel {
     var sunriseNum : Int
     var sunsetNum : Int
     var dt : String
+    var timezone : String
     
     init(response: APICurrentWeather) {
         cityName = response.name
@@ -32,12 +33,43 @@ public struct WeatherModel {
         sunriseNum = Int(getTimeNumFromTimeStamp(timeStamp: Double(response.sys.sunrise)).substring(with: 0..<2))!
         sunsetNum = Int(getTimeNumFromTimeStamp(timeStamp: Double(response.sys.sunset)).substring(with: 0..<2))!
         dt = timeStampFormat(timeStamp: Double(response.dt))
-
+        timezone = toLocalTime(timezone: response.timezone)
     }
     
    
 }
 
+
+func toLocalTime(timezone: Int) -> String {
+    let currentDate = Date()
+
+    let formatter = DateFormatter()
+    formatter.timeZone = TimeZone(secondsFromGMT:0)
+    formatter.dateFormat = "HH:mma"
+    let defaultTimeZoneStr = formatter.string(from: currentDate)
+    let timezoneOffset = timezone / 3600
+    var convertedTime = Int(defaultTimeZoneStr.substring(with: 0..<2))!+timezoneOffset
+    var hour = ""
+    if(convertedTime > 24){
+        convertedTime = convertedTime - 24
+    }
+    
+    if(convertedTime > 12){
+        if(convertedTime == 24){
+            hour = "12\(defaultTimeZoneStr.substring(with: 2..<5)) AM"
+        }else{
+            convertedTime = convertedTime % 12
+            hour = "\(convertedTime)\(defaultTimeZoneStr.substring(with: 2..<5)) PM"
+        }
+    }else if(convertedTime == 12){
+        hour = "12\(defaultTimeZoneStr.substring(with: 2..<5)) PM"
+    }
+    else{
+        hour = "\(convertedTime)\(defaultTimeZoneStr.substring(with: 2..<5)) AM"
+    }
+  
+    return "\(hour)"
+}
 
 
 

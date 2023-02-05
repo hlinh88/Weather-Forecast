@@ -23,6 +23,8 @@ struct MyWeatherView: View {
     
     @State private var isEditing = false
     
+    private let date  = Date()
+    
     var body: some View {
         NavigationView{
             GeometryReader{proxy in
@@ -30,7 +32,6 @@ struct MyWeatherView: View {
                     Text("Weather")
                         .font(.custom("HelveticaNeue-Bold", size: 30))
                         .frame(maxWidth: .infinity, alignment: .leading)
-
                     HStack {
                         HStack{
                             Image(systemName: "magnifyingglass")
@@ -135,7 +136,7 @@ struct MyWeatherView: View {
                         .padding(.bottom, 5)
                         
                         ForEach(weatherCityViewModel.cityList, id: \.self) { city in
-                            ItemView(cityName: city.cityName, temp: city.temp, weatherCondition: city.weatherCondition, temp_max: city.temp_max, temp_min: city.temp_min, time: city.time)
+                            ItemView(cityName: city.cityName, temp: city.temp, weatherCondition: city.weatherCondition, temp_max: city.temp_max, temp_min: city.temp_min, time: city.time, timezone: city.timezone)
                            }
                       
                         
@@ -157,6 +158,7 @@ struct ItemView : View {
     var temp_max : Int
     var temp_min : Int
     var time : String
+    var timezone: String
     
     var body: some View{
         ZStack{
@@ -172,7 +174,7 @@ struct ItemView : View {
                                 .font(.custom("HelveticaNeue-Bold", size: 25))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .foregroundColor(.white)
-                            Text(time)
+                            Text(timezone)
                                 .font(.custom("HelveticaNeue-Medium", size: 15))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .foregroundColor(.white)
