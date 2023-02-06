@@ -136,7 +136,7 @@ struct MyWeatherView: View {
                         .padding(.bottom, 5)
                         
                         ForEach(weatherCityViewModel.cityList, id: \.self) { city in
-                            ItemView(cityName: city.cityName, temp: city.temp, weatherCondition: city.weatherCondition, temp_max: city.temp_max, temp_min: city.temp_min, time: city.time, timezone: city.timezone, hour: city.hour)
+                            ItemView(cityName: city.cityName, temp: city.temp, weatherCondition: city.weatherCondition, temp_max: city.temp_max, temp_min: city.temp_min, timezone: city.timezone, hour: city.hour)
                            }
                       
                         
@@ -157,7 +157,6 @@ struct ItemView : View {
     var weatherCondition : String
     var temp_max : Int
     var temp_min : Int
-    var time : String
     var timezone: String
     var hour : Int
     

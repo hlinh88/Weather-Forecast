@@ -18,7 +18,6 @@ public struct WeatherModel {
     var sunset : String
     var sunriseNum : Int
     var sunsetNum : Int
-    var dt : String
     var timezone : String
     var hour : Int
     
@@ -33,7 +32,6 @@ public struct WeatherModel {
         sunset = "\(getTimeStringFromTimeStamp(timeStamp: Double(response.sys.sunset)))"
         sunriseNum = Int(getTimeNumFromTimeStamp(timeStamp: Double(response.sys.sunrise)).substring(with: 0..<2))!
         sunsetNum = Int(getTimeNumFromTimeStamp(timeStamp: Double(response.sys.sunset)).substring(with: 0..<2))!
-        dt = timeStampFormat(timeStamp: Double(response.dt))
         timezone = toLocalTime(timezone: response.timezone)
         hour = getOnlyHour(timezone: response.timezone)
     }
