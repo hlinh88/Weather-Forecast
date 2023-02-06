@@ -1,3 +1,3 @@
 # Weather Forecast App
 
-![](https://github.com/hlinh88/Weather-Forecast/WeatherApp/WeatherApp/demo.gif)
+<img src="WeatherApp/WeatherApp/demo.gif" alt="showcase" width="180"/>
